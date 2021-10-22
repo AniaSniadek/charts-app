@@ -6,12 +6,13 @@ import { AppComponent } from './app.component';
 import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, PlotlyModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, PlotlyModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
