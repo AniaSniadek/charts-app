@@ -1,16 +1,13 @@
-.header {
-    margin: 30px;
-}
-
 form {
-    display: flex;
+  display: flex;
 
-    .countries-cointainer, .date-countainer {
-        margin-right: 50px;
-    }
+  .countries-cointainer,
+  .date-countainer {
+    margin-right: 50px;
+  }
 
-    button {
-        height: 40px;
-        margin-top: 6px;
-    }
+  button {
+    height: 40px;
+    margin-top: 6px;
+  }
 }

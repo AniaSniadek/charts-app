@@ -25,26 +25,4 @@ export class AppComponent {
   //     this.createGraph(names, values);
   //   });
   // }
-  // createGraph(labels: any[], values: any[]) {
-  //   this.dataGraph = {
-  //     data: [
-  //       {
-  //         values,
-  //         labels,
-  //         type: 'pie',
-  //       },
-  //     ],
-  //     layout: {
-  //       yaxis: {
-  //         automargin: true,
-  //       },
-  //       width: 585,
-  //       height: 400,
-  //     },
-  //     config: {
-  //       responsive: true,
-  //       displayModeBar: true,
-  //     },
-  //   };
-  // }
 }

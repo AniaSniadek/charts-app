@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from './../../../environments/environment';
 import { CovidStatus } from '../enums/covid-status.enum';
 import { CovidDataSimple } from '../models/covid-data-simple.interface';
 
@@ -22,7 +22,7 @@ export class CovidDataService {
         ? `?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
         : '';
     return this._http.get<CovidDataSimple[]>(
-      `${environment}/country/${country}/status/${status}${date}`
+      `${environment.apiUrl}/country/${country}/status/${status}${date}`
     );
   }
 }

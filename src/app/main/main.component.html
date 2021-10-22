@@ -1,7 +1,2 @@
-<app-header></app-header>
-<!-- <plotly-plot *ngIf="dataGraph"
-[data]="dataGraph.data" 
-[layout]="dataGraph.layout"
-[config]="dataGraph.config"
-[userResizeHandler]="false">
-</plotly-plot> -->
+<app-header (onFormSubmitEmitter)="submitFormListener($event)"></app-header>
+<app-graphs *ngIf="showGraph" [covidData]="covidData"></app-graphs>

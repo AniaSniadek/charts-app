@@ -11,11 +11,12 @@ import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './main/header/header.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { SharedModule } from './_shared/shared.module';
+import { GraphsComponent } from './main/graphs/graphs.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
-  declarations: [AppComponent, MainComponent, HeaderComponent],
+  declarations: [AppComponent, MainComponent, HeaderComponent, GraphsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
