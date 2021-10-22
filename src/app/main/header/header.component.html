@@ -1,5 +1,5 @@
 <div class="header">
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
     <div class="countries-cointainer">
       <mat-form-field appearance="fill">
         <mat-label>Choose a country</mat-label>
@@ -28,6 +28,6 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <button mat-raised-button color="primary">Show graph</button>
+    <button type="submit" mat-raised-button color="primary">Show graph</button>
   </form>
 </div>

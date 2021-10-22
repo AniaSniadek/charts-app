@@ -32,6 +32,10 @@ export class HeaderComponent implements OnInit {
     this.getAllCoutriesList();
   }
 
+  onSubmitForm(): void {
+    console.log(this.form.value);
+  }
+
   getAllCoutriesList(): void {
     this._subscription.add(
       this._coutriesService.getAllCountries().subscribe((value: Country[]) => {
