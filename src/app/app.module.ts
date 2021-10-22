@@ -7,13 +7,25 @@ import * as PlotlyJS from 'plotly.js-dist-min';
 import { PlotlyModule } from 'angular-plotly.js';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MainComponent } from './main/main.component';
+import { HeaderComponent } from './main/header/header.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { SharedModule } from './_shared/shared.module';
+import { GraphsComponent } from './main/graphs/graphs.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, PlotlyModule, BrowserAnimationsModule],
-  providers: [],
+  declarations: [AppComponent, MainComponent, HeaderComponent, GraphsComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    PlotlyModule,
+    BrowserAnimationsModule,
+    SharedModule,
+  ],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

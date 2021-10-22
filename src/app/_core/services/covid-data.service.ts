@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './../../../environments/environment';
+import { CovidStatus } from '../enums/covid-status.enum';
+import { CovidDataSimple } from '../models/covid-data-simple.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -8,14 +11,18 @@ import { Observable } from 'rxjs';
 export class CovidDataService {
   constructor(private readonly _http: HttpClient) {}
 
-  getCovidData(): Observable<any> {
-    const headers: HttpHeaders = new HttpHeaders({
-      'x-rapidapi-key': '211439e116msh73ac4041d8935fdp180ef1jsn399e324e6004',
-      'x-rapidapi-host': 'covid-19-statistics.p.rapidapi.com',
-    });
-    return this._http.get(
-      'https://covid-19-statistics.p.rapidapi.com/reports/total',
-      { headers }
+  getCovidDataByCountryAndDate(
+    status: CovidStatus,
+    country: string,
+    startDate: string,
+    endDate: string
+  ): Observable<CovidDataSimple[]> {
+    const date: string =
+      startDate && endDate
+        ? `?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
+        : '';
+    return this._http.get<CovidDataSimple[]>(
+      `${environment.apiUrl}/country/${country}/status/${status}${date}`
     );
   }
 }
