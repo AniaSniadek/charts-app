@@ -1,3 +1,6 @@
+import { Country } from './_core/models/country.interface';
+import { CountriesService } from './_core/services/countries.service';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { CovidDataService } from './_core/services/covid-data.service';
 
@@ -8,10 +11,27 @@ import { CovidDataService } from './_core/services/covid-data.service';
 })
 export class AppComponent implements OnInit {
   dataGraph: any = null;
+  countriesList: Country[] = [];
+  private _subscription: Subscription = new Subscription();
 
-  constructor(private readonly _covidDataService: CovidDataService) {}
+  constructor(
+    private readonly _covidDataService: CovidDataService,
+    private readonly _coutriesService: CountriesService
+  ) {}
 
   ngOnInit(): void {
+    this.getAllCoutriesList();
+  }
+
+  getAllCoutriesList(): void {
+    this._subscription.add(
+      this._coutriesService.getAllCountries().subscribe((value: Country[]) => {
+        this.countriesList = value;
+      })
+    );
+  }
+
+  getCovidData(): void {
     this._covidDataService.getCovidData().subscribe((data: any) => {
       const names: any[] = [];
       const values: any[] = [];
