@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './main/header/header.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -24,8 +26,11 @@ PlotlyModule.plotlyjs = PlotlyJS;
     BrowserAnimationsModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
