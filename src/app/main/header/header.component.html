@@ -1,0 +1,15 @@
+<div class="header">
+  <div class="countries-cointainer">
+    <mat-form-field appearance="fill">
+      <mat-label>Wybierz kraj</mat-label>
+      <mat-select>
+        <mat-option
+          *ngFor="let country of countriesList"
+          [value]="country.Slug"
+        >
+          {{ country.Country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>

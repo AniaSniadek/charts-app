@@ -9,11 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MainComponent } from './main/main.component';
+import { HeaderComponent } from './main/header/header.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MainComponent, HeaderComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
