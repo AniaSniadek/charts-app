@@ -1,2 +1,6 @@
 <app-header (onFormSubmitEmitter)="submitFormListener($event)"></app-header>
-<app-graphs *ngIf="showGraph" [covidData]="covidData"></app-graphs>
+<app-graphs
+  *ngIf="showGraph"
+  [noStatus]="noStatus"
+  [covidData]="covidData"
+></app-graphs>

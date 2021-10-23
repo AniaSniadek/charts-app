@@ -7,21 +7,23 @@ import { CovidDataSimple } from 'src/app/_core/models/covid-data-simple.interfac
   styleUrls: ['./graphs.component.scss'],
 })
 export class GraphsComponent {
+  @Input() noStatus: boolean;
   @Input() set covidData(data: CovidDataSimple[]) {
     if (data) {
+      console.log(this.noStatus);
       const cases: number[] = data.map(
         (element: CovidDataSimple) => element.Cases
       );
       const dates: string[] = data.map(
         (element: CovidDataSimple) => element.Date.split('T')[0]
       );
-      this.createGraph(dates, cases);
+      this.createStatusGraph(dates, cases);
     }
   }
 
   dataGraph: any;
 
-  createGraph(x: any[], y: any[]) {
+  createStatusGraph(x: any[], y: any[]) {
     this.dataGraph = {
       data: [
         {
@@ -32,7 +34,6 @@ export class GraphsComponent {
       ],
       config: {
         responsive: true,
-        displayModeBar: true,
       },
     };
   }

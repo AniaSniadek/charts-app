@@ -1,6 +1,6 @@
 <div class="header">
   <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
-    <div class="countries-cointainer">
+    <div class="cointainer">
       <mat-form-field appearance="fill">
         <mat-label>Choose a country</mat-label>
         <mat-select formControlName="country">
@@ -13,7 +13,17 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="date-countainer">
+    <div class="cointainer">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of covidStatusArray" [value]="status">
+            {{ status | uppercase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="cointainer">
       <mat-form-field appearance="fill">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input
@@ -21,7 +31,11 @@
           [max]="todayDate"
           [rangePicker]="picker"
         >
-          <input formControlName="startDate" matStartDate placeholder="Start date" />
+          <input
+            formControlName="startDate"
+            matStartDate
+            placeholder="Start date"
+          />
           <input formControlName="endDate" matEndDate placeholder="End date" />
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
