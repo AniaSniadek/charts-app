@@ -52,8 +52,7 @@ export class MainComponent implements OnInit, OnDestroy {
         event.status,
         event.country,
         event.startDate,
-        event.endDate,
-        event.oneDay
+        event.endDate
       )
       .pipe(
         tap((value: CovidDataSimple[]) => {
@@ -74,8 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
         event.status,
         event.country,
         event.startDate,
-        event.endDate,
-        event.oneDay
+        event.endDate
       )
       .pipe(
         tap((value: CovidDataSimple[]) => {

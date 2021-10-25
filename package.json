@@ -23,6 +23,7 @@
     "@angular/router": "~11.2.7",
     "angular-plotly.js": "^4.0.4",
     "eslint": "^7.32.0",
+    "moment": "^2.29.1",
     "plotly.js-dist-min": "^2.5.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

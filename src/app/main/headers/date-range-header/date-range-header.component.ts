@@ -2,9 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { Country } from 'src/app/_core/models/country.interface';
+import * as moment from 'moment';
 
 const COVID_PANDEMIC_START_DATE: string = '2019-11-17';
 const DEFAULT_COUNTRY: string = 'poland';
+const DATE_FORMAT: string = 'YYYY-MM-DD';
 @Component({
   selector: 'date-range-header',
   templateUrl: './date-range-header.component.html',
@@ -40,10 +42,10 @@ export class DateRangeHeaderComponent {
   onSubmitForm(): void {
     if (this.form.valid) {
       const startDate: string = this.form.get('startDate').value
-        ? this.form.get('startDate').value.toISOString().split('T')[0]
+        ? moment(this.form.get('startDate').value).format(DATE_FORMAT)
         : null;
       const endDate: string = this.form.get('endDate').value
-        ? this.form.get('endDate').value.toISOString().split('T')[0]
+        ? moment(this.form.get('endDate').value).format(DATE_FORMAT)
         : null;
       const form: any = {
         country: this.form.get('country').value,

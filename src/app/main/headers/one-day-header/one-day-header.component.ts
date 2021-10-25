@@ -2,9 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { Country } from 'src/app/_core/models/country.interface';
+import * as moment from 'moment';
 
 const COVID_PANDEMIC_START_DATE: string = '2019-11-17';
 const DEFAULT_COUNTRY: string = 'poland';
+const DATE_FORMAT: string = 'YYYY-MM-DD';
 @Component({
   selector: 'one-day-header',
   templateUrl: './one-day-header.component.html',
@@ -36,15 +38,13 @@ export class OneDayHeaderComponent {
 
   onSubmitForm(): void {
     if (this.form.valid) {
-      const startDate: any = new Date(
-        this.form.get('date').value.getTime() - 24 * 60 * 60 * 1000
-      )
-        .toISOString()
-        .split('T')[0];
-      const endDate: string = this.form
-        .get('date')
-        .value.toISOString()
-        .split('T')[0];
+      const startDate: string = moment(this.form.get('date').value)
+        .subtract(1, 'days')
+        .startOf('day')
+        .format(DATE_FORMAT);
+      const endDate: string = moment(this.form.get('date').value).format(
+        DATE_FORMAT
+      );
       const form: any = {
         country: this.form.get('country').value,
         status: CovidStatus.NONE,

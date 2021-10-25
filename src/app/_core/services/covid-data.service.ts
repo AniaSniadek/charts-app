@@ -15,8 +15,7 @@ export class CovidDataService {
     status: CovidStatus,
     country: string,
     startDate: string,
-    endDate: string,
-    oneDay: boolean
+    endDate: string
   ): Observable<CovidDataSimple[]> {
     const date: string =
       startDate && endDate
@@ -24,9 +23,7 @@ export class CovidDataService {
         : '';
     status === 'none' && (status = null);
     return this._http.get<CovidDataSimple[]>(
-      `${environment.apiUrl}${oneDay ? '/live' : ''}${
-        date ? '' : '/dayone'
-      }/country/${country}${oneDay ? '/status/confirmed' : ''}${
+      `${environment.apiUrl}${date ? '' : '/dayone'}/country/${country}${
         status ? '/status/' + status : ''
       }${date}`
     );
