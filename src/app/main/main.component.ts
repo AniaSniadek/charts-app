@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { Country } from '../_core/models/country.interface';
 import { CovidDataSimple } from '../_core/models/covid-data-simple.interface';
 import { CountriesService } from '../_core/services/countries.service';
@@ -10,9 +12,11 @@ import { CovidDataService } from '../_core/services/covid-data.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-  covidData: CovidDataSimple[];
   countriesList: Country[];
-  showGraph: boolean = false;
+  covidDateRangeData: CovidDataSimple[];
+  showDateRangeGraph: boolean = false;
+  covidOneDayData: CovidDataSimple;
+  showOneDayGraph: boolean = false;
   noStatus: boolean = false;
   private _subscription: Subscription = new Subscription();
 
@@ -34,21 +38,56 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   submitFormListener(event: any): void {
-    this.noStatus = event.status === 'none' ? true : false;
+    !event.oneDay && (this.noStatus = event.status === 'none' ? true : false);
     this._subscription.add(
-      this._covidDataService
-        .getCovidDataByCountryAndDate(
-          event.status,
-          event.country,
-          event.startDate,
-          event.endDate
-        )
-        .subscribe((value: CovidDataSimple[]) => {
-          this.covidData = value;
-          console.log(this.covidData);
-          this.showGraph = true;
-        })
+      event.oneDay
+        ? this.getCovidOneDayData(event).subscribe()
+        : this.getCovidDateRangeData(event).subscribe()
     );
+  }
+
+  getCovidDateRangeData(event: any): Observable<CovidDataSimple[]> {
+    return this._covidDataService
+      .getCovidDataByCountryAndDate(
+        event.status,
+        event.country,
+        event.startDate,
+        event.endDate,
+        event.oneDay
+      )
+      .pipe(
+        tap((value: CovidDataSimple[]) => {
+          this.covidDateRangeData = value;
+          console.log(this.covidDateRangeData);
+          this.showDateRangeGraph = true;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.log(error);
+          throw throwError;
+        })
+      );
+  }
+
+  getCovidOneDayData(event: any): Observable<CovidDataSimple[]> {
+    return this._covidDataService
+      .getCovidDataByCountryAndDate(
+        event.status,
+        event.country,
+        event.startDate,
+        event.endDate,
+        event.oneDay
+      )
+      .pipe(
+        tap((value: CovidDataSimple[]) => {
+          this.covidOneDayData = value[1];
+          console.log(this.covidOneDayData);
+          this.showOneDayGraph = true;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          console.log(error);
+          throw throwError;
+        })
+      );
   }
 
   ngOnDestroy(): void {

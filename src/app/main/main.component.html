@@ -5,11 +5,16 @@
       (onFormSubmitEmitter)="submitFormListener($event)"
     ></date-range-header>
     <date-range-graph
-      *ngIf="showGraph"
+      *ngIf="showDateRangeGraph"
       [noStatus]="noStatus"
-      [covidData]="covidData"
+      [covidData]="covidDateRangeData"
     ></date-range-graph>
   </mat-tab>
-  <mat-tab label="One day"> Content 2 </mat-tab>
+  <mat-tab label="One day">
+    <one-day-header
+      [countriesListObj]="countriesList"
+      (onFormSubmitEmitter)="submitFormListener($event)"
+    ></one-day-header>
+  </mat-tab>
   <mat-tab label="Map"> Content 3 </mat-tab>
 </mat-tab-group>

@@ -50,6 +50,7 @@ export class DateRangeHeaderComponent {
         status: this.form.get('status').value,
         startDate,
         endDate,
+        ondDay: false,
       };
       this.onFormSubmitEmitter.emit(form);
     }
