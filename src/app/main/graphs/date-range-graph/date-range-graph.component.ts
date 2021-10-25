@@ -1,18 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { element } from 'protractor';
 import { CovidDataSimple } from 'src/app/_core/models/covid-data-simple.interface';
+import { GraphTrace } from 'src/app/_core/models/graph-trace.interface';
 
-interface GraphTrace {
-  x: number[] | string[];
-  y: number[] | string[];
-  name?: string;
-}
 @Component({
-  selector: 'app-graphs',
-  templateUrl: './graphs.component.html',
-  styleUrls: ['./graphs.component.scss'],
+  selector: 'date-range-graph',
+  templateUrl: './date-range-graph.component.html',
+  styleUrls: ['./date-range-graph.component.scss'],
 })
-export class GraphsComponent {
+export class DateRangeGraphComponent {
   @Input() noStatus: boolean;
   @Input() set covidData(data: CovidDataSimple[]) {
     data && this.createLineGraph(this.preapreDataForGraph(data));
@@ -85,6 +80,9 @@ export class GraphsComponent {
     });
     this.dataGraph = {
       data: data,
+      layout: {
+        title: 'Line plot with Covid19 data',
+      },
       config: {
         responsive: true,
       },

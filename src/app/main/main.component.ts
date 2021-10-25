@@ -1,20 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CovidStatus } from '../_core/enums/covid-status.enum';
+import { Country } from '../_core/models/country.interface';
 import { CovidDataSimple } from '../_core/models/covid-data-simple.interface';
+import { CountriesService } from '../_core/services/countries.service';
 import { CovidDataService } from '../_core/services/covid-data.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit, OnDestroy {
   covidData: CovidDataSimple[];
+  countriesList: Country[];
   showGraph: boolean = false;
   noStatus: boolean = false;
   private _subscription: Subscription = new Subscription();
 
-  constructor(private readonly _covidDataService: CovidDataService) {}
+  constructor(
+    private readonly _covidDataService: CovidDataService,
+    private readonly _coutriesService: CountriesService
+  ) {}
+
+  ngOnInit(): void {
+    this.getAllCoutriesList();
+  }
+
+  getAllCoutriesList(): void {
+    this._subscription.add(
+      this._coutriesService
+        .getAllCountries()
+        .subscribe((value: Country[]) => (this.countriesList = value))
+    );
+  }
 
   submitFormListener(event: any): void {
     this.noStatus = event.status === 'none' ? true : false;
@@ -32,5 +49,9 @@ export class MainComponent {
           this.showGraph = true;
         })
     );
+  }
+
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe();
   }
 }

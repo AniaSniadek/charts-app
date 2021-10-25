@@ -1,40 +1,40 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { Country } from 'src/app/_core/models/country.interface';
-import { CountriesService } from 'src/app/_core/services/countries.service';
 
 const COVID_PANDEMIC_START_DATE: string = '2019-11-17';
 const DEFAULT_COUNTRY: string = 'poland';
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  selector: 'date-range-header',
+  templateUrl: './date-range-header.component.html',
+  styleUrls: ['./date-range-header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class DateRangeHeaderComponent {
+  @Input() set countriesListObj(data: Country[]) {
+    this.initForm();
+    if (data) {
+      this.countriesList = data;
+      this.onSubmitForm();
+    }
+  }
   @Output() onFormSubmitEmitter: EventEmitter<any> = new EventEmitter<any>();
 
-  countriesList: Country[] = [];
+  countriesList: Country[];
   form: FormGroup;
   covidStatusArray: string[] = Object.values(CovidStatus);
   readonly todayDate: Date = new Date();
   readonly covidPandemicStartDate: Date = new Date(COVID_PANDEMIC_START_DATE);
-  private _subscription: Subscription = new Subscription();
 
-  constructor(
-    private readonly _coutriesService: CountriesService,
-    private readonly _formBuilder: FormBuilder
-  ) {}
+  constructor(private readonly _formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
+  initForm(): void {
     this.form = this._formBuilder.group({
       country: [DEFAULT_COUNTRY, Validators.required],
       status: [CovidStatus.CONFIRMED, Validators.required],
       startDate: [null],
       endDate: [null],
     });
-    this.getAllCoutriesList();
   }
 
   onSubmitForm(): void {
@@ -53,14 +53,5 @@ export class HeaderComponent implements OnInit {
       };
       this.onFormSubmitEmitter.emit(form);
     }
-  }
-
-  getAllCoutriesList(): void {
-    this._subscription.add(
-      this._coutriesService.getAllCountries().subscribe((value: Country[]) => {
-        this.countriesList = value;
-        this.onSubmitForm();
-      })
-    );
   }
 }
