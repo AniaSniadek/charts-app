@@ -13,6 +13,7 @@ import { SharedModule } from './_shared/shared.module';
 import { DateRangeGraphComponent } from './main/graphs/date-range-graph/date-range-graph.component';
 import { OneDayHeaderComponent } from './main/headers/one-day-header/one-day-header.component';
 import { DateRangeHeaderComponent } from './main/headers/date-range-header/date-range-header.component';
+import { OneDayGraphComponent } from './main/graphs/one-day-graph/one-day-graph.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -23,6 +24,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DateRangeHeaderComponent,
     DateRangeGraphComponent,
     OneDayHeaderComponent,
+    OneDayGraphComponent,
   ],
   imports: [
     BrowserModule,

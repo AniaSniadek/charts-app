@@ -20,49 +20,33 @@ export class DateRangeGraphComponent {
       (element: CovidDataSimple) => element.Date.split('T')[0]
     );
     if (this.noStatus) {
-      const confirmed: number[] = data.map(
-        (element: CovidDataSimple) => element.Confirmed
-      );
-      const deaths: number[] = data.map(
-        (element: CovidDataSimple) => element.Deaths
-      );
-      const recovered: number[] = data.map(
-        (element: CovidDataSimple) => element.Recovered
-      );
-      const active: number[] = data.map(
-        (element: CovidDataSimple) => element.Active
-      );
-      const traces: GraphTrace[] = [
+      return [
         {
           x: dates,
-          y: confirmed,
+          y: data.map((element: CovidDataSimple) => element.Confirmed),
           name: 'confirmed',
         },
         {
           x: dates,
-          y: deaths,
+          y: data.map((element: CovidDataSimple) => element.Deaths),
           name: 'deaths',
         },
         {
           x: dates,
-          y: recovered,
+          y: data.map((element: CovidDataSimple) => element.Recovered),
           name: 'recovered',
         },
         {
           x: dates,
-          y: active,
+          y: data.map((element: CovidDataSimple) => element.Active),
           name: 'active',
         },
       ];
-      return traces;
     } else {
-      const cases: number[] = data.map(
-        (element: CovidDataSimple) => element.Cases
-      );
       return [
         {
           x: dates,
-          y: cases,
+          y: data.map((element: CovidDataSimple) => element.Cases),
         },
       ];
     }

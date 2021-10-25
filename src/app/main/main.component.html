@@ -15,6 +15,10 @@
       [countriesListObj]="countriesList"
       (onFormSubmitEmitter)="submitFormListener($event)"
     ></one-day-header>
+    <one-day-graph
+      *ngIf="showOneDayGraph"
+      [covidData]="covidOneDayData"
+    ></one-day-graph>
   </mat-tab>
   <mat-tab label="Map"> Content 3 </mat-tab>
 </mat-tab-group>
