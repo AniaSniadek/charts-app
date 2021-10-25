@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { Country } from 'src/app/_core/models/country.interface';
 import { CountriesService } from 'src/app/_core/services/countries.service';
 
 const COVID_PANDEMIC_START_DATE: string = '2019-11-17';
+const DEFAULT_COUNTRY: string = 'poland';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   countriesList: Country[] = [];
   form: FormGroup;
+  covidStatusArray: string[] = Object.values(CovidStatus);
   readonly todayDate: Date = new Date();
   readonly covidPandemicStartDate: Date = new Date(COVID_PANDEMIC_START_DATE);
   private _subscription: Subscription = new Subscription();
@@ -26,7 +29,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this._formBuilder.group({
-      country: [null, Validators.required],
+      country: [DEFAULT_COUNTRY, Validators.required],
+      status: [CovidStatus.CONFIRMED, Validators.required],
       startDate: [null],
       endDate: [null],
     });
@@ -43,6 +47,7 @@ export class HeaderComponent implements OnInit {
         : null;
       const form: any = {
         country: this.form.get('country').value,
+        status: this.form.get('status').value,
         startDate,
         endDate,
       };
@@ -54,6 +59,7 @@ export class HeaderComponent implements OnInit {
     this._subscription.add(
       this._coutriesService.getAllCountries().subscribe((value: Country[]) => {
         this.countriesList = value;
+        this.onSubmitForm();
       })
     );
   }

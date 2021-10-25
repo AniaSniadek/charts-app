@@ -11,23 +11,24 @@ import { CovidDataService } from '../_core/services/covid-data.service';
 export class MainComponent {
   covidData: CovidDataSimple[];
   showGraph: boolean = false;
-  readonly covidStatus: typeof CovidStatus = CovidStatus;
+  noStatus: boolean = false;
   private _subscription: Subscription = new Subscription();
 
   constructor(private readonly _covidDataService: CovidDataService) {}
 
   submitFormListener(event: any): void {
+    this.noStatus = event.status === 'none' ? true : false;
     this._subscription.add(
       this._covidDataService
         .getCovidDataByCountryAndDate(
-          this.covidStatus.CONFIRMED,
+          event.status,
           event.country,
           event.startDate,
           event.endDate
         )
         .subscribe((value: CovidDataSimple[]) => {
-          console.log(value);
           this.covidData = value;
+          console.log(this.covidData);
           this.showGraph = true;
         })
     );

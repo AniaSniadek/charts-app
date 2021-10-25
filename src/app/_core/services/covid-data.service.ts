@@ -21,8 +21,11 @@ export class CovidDataService {
       startDate && endDate
         ? `?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
         : '';
+    status === 'none' && (status = null);
     return this._http.get<CovidDataSimple[]>(
-      `${environment.apiUrl}/country/${country}/status/${status}${date}`
+      `${environment.apiUrl}${date ? '' : '/dayone'}/country/${country}${
+        status ? '/status/' + status : ''
+      }${date}`
     );
   }
 }
