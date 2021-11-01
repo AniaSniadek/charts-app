@@ -1,0 +1,23 @@
+<div class="one-day-graph">
+  <plotly-plot
+    *ngIf="barGraph"
+    [data]="barGraph.data"
+    [layout]="barGraph.layout"
+    [config]="barGraph.config"
+  >
+  </plotly-plot>
+  <plotly-plot
+    *ngIf="pieGraph"
+    [data]="pieGraph.data"
+    [layout]="pieGraph.layout"
+    [config]="pieGraph.config"
+  >
+  </plotly-plot>
+  <plotly-plot
+    *ngIf="dotsGraph"
+    [data]="dotsGraph.data"
+    [layout]="dotsGraph.layout"
+    [config]="dotsGraph.config"
+  >
+  </plotly-plot>
+</div>

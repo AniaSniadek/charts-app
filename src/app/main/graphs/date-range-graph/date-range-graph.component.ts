@@ -1,18 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { element } from 'protractor';
 import { CovidDataSimple } from 'src/app/_core/models/covid-data-simple.interface';
+import { GraphTrace } from 'src/app/_core/models/graph-trace.interface';
 
-interface GraphTrace {
-  x: number[] | string[];
-  y: number[] | string[];
-  name?: string;
-}
 @Component({
-  selector: 'app-graphs',
-  templateUrl: './graphs.component.html',
-  styleUrls: ['./graphs.component.scss'],
+  selector: 'date-range-graph',
+  templateUrl: './date-range-graph.component.html',
+  styleUrls: ['./date-range-graph.component.scss'],
 })
-export class GraphsComponent {
+export class DateRangeGraphComponent {
   @Input() noStatus: boolean;
   @Input() set covidData(data: CovidDataSimple[]) {
     data && this.createLineGraph(this.preapreDataForGraph(data));
@@ -25,49 +20,33 @@ export class GraphsComponent {
       (element: CovidDataSimple) => element.Date.split('T')[0]
     );
     if (this.noStatus) {
-      const confirmed: number[] = data.map(
-        (element: CovidDataSimple) => element.Confirmed
-      );
-      const deaths: number[] = data.map(
-        (element: CovidDataSimple) => element.Deaths
-      );
-      const recovered: number[] = data.map(
-        (element: CovidDataSimple) => element.Recovered
-      );
-      const active: number[] = data.map(
-        (element: CovidDataSimple) => element.Active
-      );
-      const traces: GraphTrace[] = [
+      return [
         {
           x: dates,
-          y: confirmed,
+          y: data.map((element: CovidDataSimple) => element.Confirmed),
           name: 'confirmed',
         },
         {
           x: dates,
-          y: deaths,
+          y: data.map((element: CovidDataSimple) => element.Deaths),
           name: 'deaths',
         },
         {
           x: dates,
-          y: recovered,
+          y: data.map((element: CovidDataSimple) => element.Recovered),
           name: 'recovered',
         },
         {
           x: dates,
-          y: active,
+          y: data.map((element: CovidDataSimple) => element.Active),
           name: 'active',
         },
       ];
-      return traces;
     } else {
-      const cases: number[] = data.map(
-        (element: CovidDataSimple) => element.Cases
-      );
       return [
         {
           x: dates,
-          y: cases,
+          y: data.map((element: CovidDataSimple) => element.Cases),
         },
       ];
     }
@@ -85,6 +64,9 @@ export class GraphsComponent {
     });
     this.dataGraph = {
       data: data,
+      layout: {
+        title: 'Line plot with Covid19 data',
+      },
       config: {
         responsive: true,
       },
