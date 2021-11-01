@@ -7,6 +7,7 @@ import * as moment from 'moment';
 const COVID_PANDEMIC_START_DATE: string = '2019-11-17';
 const DEFAULT_COUNTRY: string = 'poland';
 const DATE_FORMAT: string = 'YYYY-MM-DD';
+const DEFAULT_START_DATE: string = '2021-01-01';
 @Component({
   selector: 'one-day-header',
   templateUrl: './one-day-header.component.html',
@@ -32,7 +33,7 @@ export class OneDayHeaderComponent {
   initForm(): void {
     this.form = this._formBuilder.group({
       country: [DEFAULT_COUNTRY, Validators.required],
-      date: [this.todayDate, Validators.required],
+      date: [new Date(DEFAULT_START_DATE), Validators.required],
     });
   }
 
