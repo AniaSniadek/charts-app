@@ -19,6 +19,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BarGraphComponent } from './main/dashboard/graphs/bar-graph/bar-graph.component';
 import { PieGraphComponent } from './main/dashboard/graphs/pie-graph/pie-graph.component';
 import { BarDetailsGraphComponent } from './main/dashboard/graphs/bar-details-graph/bar-details-graph.component';
+import { NumberCardGraphComponent } from './main/dashboard/graphs/number-card-graph/number-card-graph.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -34,6 +35,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     BarGraphComponent,
     PieGraphComponent,
     BarDetailsGraphComponent,
+    NumberCardGraphComponent,
   ],
   imports: [
     BrowserModule,
