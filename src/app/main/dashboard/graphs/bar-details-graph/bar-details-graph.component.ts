@@ -1,3 +1,4 @@
+import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,10 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./bar-details-graph.component.scss'],
 })
 export class BarDetailsGraphComponent {
-  @Input() covidDetailsData: {
-    name: string;
-    series: { name: string; value: number }[];
-  }[];
+  @Input() covidDetailsData: GraphData.Group[];
   view: any = [1000, 400];
 
   showXAxis: boolean = true;

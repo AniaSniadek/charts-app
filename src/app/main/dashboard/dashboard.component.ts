@@ -1,9 +1,9 @@
 import { CovidDataSimple } from './../../_core/models/covid-data-simple.interface';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
-import { Country } from 'src/app/_core/models/country.interface';
 import { CovidDataService } from 'src/app/_core/services/covid-data.service';
 import { forkJoin, Observable } from 'rxjs';
+import { GraphData } from 'src/app/_core/models/graph-data.model';
 
 const DEFAULT_COUNTRIES: string[] = [
   'russia',
@@ -25,11 +25,8 @@ const DEFAULT_END_DATE: string = '2020-05-02';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  covidData: { name: string; value: number }[] = [];
-  covidDetailsData: {
-    name: string;
-    series: { name: string; value: number }[];
-  }[] = [];
+  covidData: GraphData.Simple[] = [];
+  covidDetailsData: GraphData.Group[] = [];
   showGraph: boolean = false;
 
   constructor(private readonly _covidDataService: CovidDataService) {}
@@ -46,41 +43,46 @@ export class DashboardComponent implements OnInit {
       )
     );
     allCountryObs$.subscribe((response: CovidDataSimple[]) => {
-      response.forEach((element: CovidDataSimple) => {
-        this.covidData.push({
-          name: element.Country,
-          value: element.Active,
-        });
-        this.covidDetailsData.push({
-          name: element.Country,
-          series: [
-            {
-              name: 'Confirmed',
-              value: element.Confirmed,
-            },
-            {
-              name: 'Active',
-              value: element.Active,
-            },
-            {
-              name: 'Deaths',
-              value: element.Deaths,
-            },
-            {
-              name: 'Recovered',
-              value: element.Recovered,
-            },
-          ],
-        });
-      });
-      this.covidData.sort((a: any, b: any) => b.value - a.value);
+      this.covidData = this.prepareCovidData(response);
+      this.covidDetailsData = this.prepareCovidDetailsData(response);
       this.showGraph = true;
       console.log(this.covidData);
       console.log(this.covidDetailsData);
     });
   }
 
-  onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  prepareCovidData(data: CovidDataSimple[]): GraphData.Simple[] {
+    data.sort((a: CovidDataSimple, b: CovidDataSimple) => b.Active - a.Active);
+    return data.map((element: CovidDataSimple) => ({
+      name: element.Country,
+      value: element.Active,
+    }));
+  }
+
+  prepareCovidDetailsData(data: CovidDataSimple[]): GraphData.Group[] {
+    data.sort(
+      (a: CovidDataSimple, b: CovidDataSimple) => b.Confirmed - a.Confirmed
+    );
+    return data.map((element: CovidDataSimple) => ({
+      name: element.Country,
+      series: [
+        {
+          name: 'Confirmed',
+          value: element.Confirmed,
+        },
+        {
+          name: 'Active',
+          value: element.Active,
+        },
+        {
+          name: 'Deaths',
+          value: element.Deaths,
+        },
+        {
+          name: 'Recovered',
+          value: element.Recovered,
+        },
+      ],
+    }));
   }
 }

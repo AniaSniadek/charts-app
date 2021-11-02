@@ -1,3 +1,4 @@
+import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,7 +7,7 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./pie-graph.component.scss'],
 })
 export class PieGraphComponent {
-  @Input() covidData: { name: string; value: number }[];
+  @Input() covidData: GraphData.Simple[];
 
   view: any = [600, 400];
   gradient: boolean = true;
