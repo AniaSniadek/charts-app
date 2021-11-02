@@ -26,26 +26,11 @@ const DEFAULT_END_DATE: string = '2020-05-02';
 })
 export class DashboardComponent implements OnInit {
   covidData: { name: string; value: number }[] = [];
-  view: any = [600, 200];
-  viewPie: any = [600, 400];
+  covidDetailsData: {
+    name: string;
+    series: { name: string; value: number }[];
+  }[] = [];
   showGraph: boolean = false;
-  showXAxis: boolean = true;
-  showYAxis: boolean = true;
-  gradient: boolean = false;
-  showLegend: boolean = false;
-  showXAxisLabel: boolean = true;
-  // yAxisLabel: string = 'Country';
-  showYAxisLabel: boolean = true;
-  // xAxisLabel: string = 'Active';
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-
-  colorScheme: any = {
-    domain: ['#7AA3E5'],
-  };
-  colorSchemePie: any = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5'],
-  };
 
   constructor(private readonly _covidDataService: CovidDataService) {}
 
@@ -66,10 +51,32 @@ export class DashboardComponent implements OnInit {
           name: element.Country,
           value: element.Active,
         });
+        this.covidDetailsData.push({
+          name: element.Country,
+          series: [
+            {
+              name: 'Confirmed',
+              value: element.Confirmed,
+            },
+            {
+              name: 'Active',
+              value: element.Active,
+            },
+            {
+              name: 'Deaths',
+              value: element.Deaths,
+            },
+            {
+              name: 'Recovered',
+              value: element.Recovered,
+            },
+          ],
+        });
       });
       this.covidData.sort((a: any, b: any) => b.value - a.value);
       this.showGraph = true;
       console.log(this.covidData);
+      console.log(this.covidDetailsData);
     });
   }
 
