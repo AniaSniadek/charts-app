@@ -14,6 +14,8 @@ import { DateRangeGraphComponent } from './main/graphs/date-range-graph/date-ran
 import { OneDayHeaderComponent } from './main/headers/one-day-header/one-day-header.component';
 import { DateRangeHeaderComponent } from './main/headers/date-range-header/date-range-header.component';
 import { OneDayGraphComponent } from './main/graphs/one-day-graph/one-day-graph.component';
+import { DashboardComponent } from './main/dashboard/dashboard.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 PlotlyModule.plotlyjs = PlotlyJS;
 
@@ -25,6 +27,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     DateRangeGraphComponent,
     OneDayHeaderComponent,
     OneDayGraphComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     HttpClientModule,
     PlotlyModule,
     BrowserAnimationsModule,
+    NgxChartsModule,
     SharedModule,
   ],
   providers: [MatDatepickerModule],

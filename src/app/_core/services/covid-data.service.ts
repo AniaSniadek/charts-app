@@ -1,3 +1,4 @@
+import { map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,10 +23,12 @@ export class CovidDataService {
         ? `?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
         : '';
     status === 'none' && (status = null);
-    return this._http.get<CovidDataSimple[]>(
-      `${environment.apiUrl}${date ? '' : '/dayone'}/country/${country}${
-        status ? '/status/' + status : ''
-      }${date}`
-    );
+    return this._http
+      .get<CovidDataSimple[]>(
+        `${environment.apiUrl}${date ? '' : '/dayone'}/country/${country}${
+          status ? '/status/' + status : ''
+        }${date}`
+      )
+      .pipe(map((response: any) => (status ? response : response[0])));
   }
 }

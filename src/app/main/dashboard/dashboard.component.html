@@ -1,0 +1,27 @@
+<ngx-charts-bar-horizontal
+  *ngIf="showGraph"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="covidData"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [showGridLines]="false"
+  (select)="onSelect($event)"
+>
+</ngx-charts-bar-horizontal>
+<ngx-charts-pie-chart
+  *ngIf="showGraph"
+  [view]="viewPie"
+  [scheme]="colorSchemePie"
+  [results]="covidData"
+  [gradient]="true"
+  [legend]="true"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+  (select)="onSelect($event)"
+>
+</ngx-charts-pie-chart>
