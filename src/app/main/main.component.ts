@@ -57,7 +57,6 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         tap((value: CovidDataSimple[]) => {
           this.covidDateRangeData = value;
-          console.log(this.covidDateRangeData);
           this.showDateRangeGraph = true;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -78,7 +77,6 @@ export class MainComponent implements OnInit, OnDestroy {
       .pipe(
         tap((value: CovidDataSimple[]) => {
           this.covidOneDayData = value[1];
-          console.log(this.covidOneDayData);
           this.showOneDayGraph = true;
         }),
         catchError((error: HttpErrorResponse) => {
