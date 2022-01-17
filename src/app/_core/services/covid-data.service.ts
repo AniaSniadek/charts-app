@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 import { environment } from './../../../environments/environment';
 import { CovidStatus } from '../enums/covid-status.enum';
 import { CovidDataSimple } from '../models/covid-data-simple.interface';
-import { element } from 'protractor';
 
 const CSV_FILE_PATH: string = 'assets/countries-aggregated_csv.csv';
 
@@ -16,10 +15,16 @@ const CSV_FILE_PATH: string = 'assets/countries-aggregated_csv.csv';
 })
 export class CovidDataService {
   constructor(private readonly _http: HttpClient) {
-    this.getCovidDataFromCsv().subscribe((value: any) => console.log(value));
-    this.getCountriesListFromCsv().subscribe((value: any) =>
-      console.log(value)
-    );
+    // this.getCovidDataFromCsv()
+    //   .pipe(
+    //     map((value: CovidData[]) =>
+    //       value.filter((element: CovidData) => element.country === 'Poland')
+    //     )
+    //   )
+    //   .subscribe((value: any) => console.log(value));
+    // this.getCountriesListFromCsv().subscribe((value: any) =>
+    //   console.log(value)
+    // );
   }
 
   getCovidDataFromCsv(): Observable<CovidData[]> {
