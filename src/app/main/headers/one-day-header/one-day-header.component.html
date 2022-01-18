@@ -17,17 +17,12 @@
     <div class="cointainer">
       <mat-form-field appearance="fill">
         <mat-label>Choose a country</mat-label>
-        <mat-select
-          formControlName="countries"
-          multiple
-          (selectionChange)="onCountrySelectionChange($event)"
-        >
+        <mat-select formControlName="countries" multiple>
           <mat-option *ngFor="let country of countriesList" [value]="country">
             {{ country }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <button type="submit" mat-raised-button color="primary">Show graph</button>
   </form>
 </div>

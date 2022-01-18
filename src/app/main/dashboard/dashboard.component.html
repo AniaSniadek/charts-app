@@ -1,5 +1,8 @@
 <h2>Data after selecting a date in specific countries</h2>
-<one-day-header [countriesListObj]="countriesList"></one-day-header>
+<one-day-header
+  [countriesListObj]="countriesList"
+  (onFormSubmitEmitter)="onSubmitFormListener($event)"
+></one-day-header>
 <div class="graphs-container">
   <div class="graphs-container__graph">
     <div class="graph__title"></div>

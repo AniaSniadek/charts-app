@@ -1,23 +1,10 @@
-import { CountryData } from './../../_core/models/country-data';
-import { CovidDataSimple } from './../../_core/models/covid-data-simple.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { CovidDataService } from 'src/app/_core/services/covid-data.service';
-import { forkJoin, Observable, Subscription } from 'rxjs';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
-import { element } from 'protractor';
 import { CovidData } from 'src/app/_core/models/covid-data';
 import { map, tap } from 'rxjs/operators';
-
-const DEFAULT_COUNTRIES: string[] = [
-  'Russia',
-  'Ukraine',
-  'Germany',
-  'Poland',
-  'Italy',
-  'Spain',
-];
-const DEFAULT_DATE: string = '2020-05-01';
+import { Subscription } from 'rxjs';
+import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,20 +22,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCountriesList();
-    this.getCovidDataByDateAndCountry();
+    // this.getCovidDataByDateAndCountry();
   }
 
-  getCovidDataByDateAndCountry(): void {
+  onSubmitFormListener(event: CountriesFormModel): void {
+    this.getCovidDataByDateAndCountry(event.date, event.countries);
+  }
+
+  getCovidDataByDateAndCountry(date: string, countries: string[]): void {
     this._subscription.add(
       this._covidDataService
         .getCovidDataFromCsv()
         .pipe(
           map((data: CovidData[]) =>
-            data.filter((element: CovidData) => element.date === DEFAULT_DATE)
+            data.filter((element: CovidData) => element.date === date)
           ),
           map((data: CovidData[]) =>
             data.filter((element: CovidData) =>
-              DEFAULT_COUNTRIES.includes(element.country)
+              countries.includes(element.country)
             )
           ),
           tap((response: CovidData[]) => {

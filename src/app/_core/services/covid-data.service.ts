@@ -1,4 +1,3 @@
-import { CountryData } from './../models/country-data';
 import { CovidData } from './../models/covid-data';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -14,18 +13,7 @@ const CSV_FILE_PATH: string = 'assets/countries-aggregated_csv.csv';
   providedIn: 'root',
 })
 export class CovidDataService {
-  constructor(private readonly _http: HttpClient) {
-    // this.getCovidDataFromCsv()
-    //   .pipe(
-    //     map((value: CovidData[]) =>
-    //       value.filter((element: CovidData) => element.country === 'Poland')
-    //     )
-    //   )
-    //   .subscribe((value: any) => console.log(value));
-    // this.getCountriesListFromCsv().subscribe((value: any) =>
-    //   console.log(value)
-    // );
-  }
+  constructor(private readonly _http: HttpClient) {}
 
   getCovidDataFromCsv(): Observable<CovidData[]> {
     return this._http.get(CSV_FILE_PATH, { responseType: 'text' }).pipe(
@@ -57,9 +45,6 @@ export class CovidDataService {
           countries.push(row[1]);
         }
         countries = [...new Set(countries)];
-        // const countryDataArray: CountryData[] = countries.map(
-        //   (element: string) => new CountryData(element)
-        // );
         return of(countries);
       }),
       tap((data: string[]) => data)
