@@ -47,7 +47,7 @@ export class CovidDataService {
     );
   }
 
-  getCountriesListFromCsv(): Observable<CountryData[]> {
+  getCountriesListFromCsv(): Observable<string[]> {
     return this._http.get(CSV_FILE_PATH, { responseType: 'text' }).pipe(
       switchMap((data: string) => {
         let countries: string[] = [];
@@ -57,12 +57,12 @@ export class CovidDataService {
           countries.push(row[1]);
         }
         countries = [...new Set(countries)];
-        const countryDataArray: CountryData[] = countries.map(
-          (element: string) => new CountryData(element)
-        );
-        return of(countryDataArray);
+        // const countryDataArray: CountryData[] = countries.map(
+        //   (element: string) => new CountryData(element)
+        // );
+        return of(countries);
       }),
-      tap((data: CountryData[]) => [...new Set(data)])
+      tap((data: string[]) => data)
     );
   }
 

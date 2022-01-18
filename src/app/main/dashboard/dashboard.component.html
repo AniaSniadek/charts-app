@@ -1,10 +1,14 @@
-<app-bar-graph *ngIf="showGraph" [covidData]="covidData"></app-bar-graph>
-<app-pie-graph *ngIf="showGraph" [covidData]="covidData"></app-pie-graph>
-<app-bar-details-graph
-  *ngIf="showGraph"
-  [covidDetailsData]="covidDetailsData"
-></app-bar-details-graph>
-<app-number-card-graph
-  *ngIf="showGraph"
-  [covidData]="covidData"
-></app-number-card-graph>
+<h2>Data after selecting a date in specific countries</h2>
+<one-day-header [countriesListObj]="countriesList"></one-day-header>
+<div class="graphs-container">
+  <div class="graphs-container__graph">
+    <div class="graph__title"></div>
+    <app-bar-graph *ngIf="showGraph" [covidData]="covidData"></app-bar-graph>
+  </div>
+  <div class="graphs-container__graph">
+    <app-bar-details-graph
+      *ngIf="showGraph"
+      [covidDetailsData]="covidDetailsData"
+    ></app-bar-details-graph>
+  </div>
+</div>
