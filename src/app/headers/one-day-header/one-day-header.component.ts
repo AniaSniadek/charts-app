@@ -1,5 +1,5 @@
-import { SharedService } from './../../../_shared/shared.service';
-import { CountriesFormModel } from './../../../_core/models/countries-form-model.interface';
+import { SharedService } from '../../_shared/shared.service';
+import { CountriesFormModel } from '../../_core/models/countries-form-model.interface';
 import {
   Component,
   EventEmitter,
