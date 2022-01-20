@@ -3,9 +3,6 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { environment } from './../../../environments/environment';
-import { CovidStatus } from '../enums/covid-status.enum';
-import { CovidDataSimple } from '../models/covid-data-simple.interface';
 
 const CSV_FILE_PATH: string = 'assets/countries-aggregated_csv.csv';
 
@@ -49,25 +46,5 @@ export class CovidDataService {
       }),
       tap((data: string[]) => data)
     );
-  }
-
-  getCovidDataByCountryAndDate(
-    status: CovidStatus,
-    country: string,
-    startDate: string,
-    endDate: string
-  ): Observable<CovidDataSimple[]> {
-    const date: string =
-      startDate && endDate
-        ? `?from=${startDate}T00:00:00Z&to=${endDate}T00:00:00Z`
-        : '';
-    status === 'none' && (status = null);
-    return this._http
-      .get<CovidDataSimple[]>(
-        `${environment.apiUrl}${date ? '' : '/dayone'}/country/${country}${
-          status ? '/status/' + status : ''
-        }${date}`
-      )
-      .pipe(map((response: any) => (status ? response : response[0])));
   }
 }
