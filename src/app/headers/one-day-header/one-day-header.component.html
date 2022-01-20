@@ -1,0 +1,32 @@
+<div class="one-day-header">
+  <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+    <div class="cointainer">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="date"
+          [min]="defaultStartDate"
+          [max]="defaultEndDate"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="cointainer">
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a country</mat-label>
+        <mat-select formControlName="countries" multiple>
+          <mat-option
+            *ngFor="let country of countriesList"
+            [value]="country"
+            (onSelectionChange)="onSelectionCountriesChange($event)"
+          >
+            {{ country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

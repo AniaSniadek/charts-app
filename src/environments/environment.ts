@@ -4,7 +4,6 @@
 
 export const environment: any = {
   production: false,
-  apiUrl: 'https://api.covid19api.com',
 };
 
 /*
