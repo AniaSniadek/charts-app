@@ -1,5 +1,10 @@
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
+import { LegendPosition } from '@swimlane/ngx-charts';
+
+const DEFAULT_COLORS: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
+const DEFAULT_WIDTH: number = 1000;
+const DEFAULT_HEIGHT: number = 400;
 
 @Component({
   selector: 'app-bar-details-graph',
@@ -8,19 +13,24 @@ import { Component, Input } from '@angular/core';
 })
 export class BarDetailsGraphComponent {
   @Input() covidDetailsData: GraphData.Group[];
-  view: any = [1000, 400];
 
+  view: [number, number] = [DEFAULT_WIDTH, DEFAULT_HEIGHT];
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = true;
   showLegend: boolean = true;
   showXAxisLabel: boolean = true;
+  yAxisLabel: string = 'Cases';
   showYAxisLabel: boolean = true;
-  legendPosition: any = 'below';
-
+  xAxisLabel: string = 'Country';
+  legendPosition: LegendPosition = LegendPosition.Right;
   colorScheme: any = {
-    domain: ['#5AA454', '#C7B42C', '#AAAAAA', '#aae3f5'],
+    domain: DEFAULT_COLORS,
   };
+
+  yAxisFormatting(value: number): string {
+    return value.toLocaleString();
+  }
 
   onSelect(data: any): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
