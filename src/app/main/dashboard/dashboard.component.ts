@@ -44,9 +44,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ),
           tap((response: CovidData[]) => {
             console.log(response);
-            this.covidData = this.prepareCovidData(response);
-            this.covidDetailsData = this.prepareCovidDetailsData(response);
-            this.showGraph = true;
+            if (response.length) {
+              this.covidData = this.prepareCovidData(response);
+              this.covidDetailsData = this.prepareCovidDetailsData(response);
+              this.showGraph = true;
+            } else {
+              this.covidData = [];
+              this.covidDetailsData = [];
+              this.showGraph = false;
+            }
           })
         )
         .subscribe()

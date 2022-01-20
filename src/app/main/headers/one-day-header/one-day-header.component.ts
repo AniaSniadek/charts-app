@@ -1,3 +1,5 @@
+import { SharedService } from './../../../_shared/shared.service';
+import { CountriesFormModel } from './../../../_core/models/countries-form-model.interface';
 import {
   Component,
   EventEmitter,
@@ -8,7 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 const DEFAULT_START_DATE: string = '2020-01-01';
 const DEFAULT_END_DATE: string = '2020-12-31';
@@ -41,11 +43,15 @@ export class OneDayHeaderComponent implements OnDestroy {
   countriesList: string[];
   form: FormGroup;
   selectedCountriesList: string[] = DEFAULT_COUNTRIES;
+  optionCountrySelected: string;
   readonly defaultStartDate: Date = new Date(DEFAULT_START_DATE);
   readonly defaultEndDate: Date = new Date(DEFAULT_END_DATE);
   private _subscription: Subscription = new Subscription();
 
-  constructor(private readonly _formBuilder: FormBuilder) {}
+  constructor(
+    private readonly _formBuilder: FormBuilder,
+    private readonly _sharedService: SharedService
+  ) {}
 
   initForm(): void {
     this.form = this._formBuilder.group({
@@ -57,19 +63,43 @@ export class OneDayHeaderComponent implements OnDestroy {
 
   onFormListener(): void {
     this._subscription.add(
-      this.form.valueChanges.subscribe(() => this.onSubmitForm())
+      this.form.valueChanges.subscribe((value: CountriesFormModel) => {
+        value.countries.length === 0 &&
+          this._sharedService.openSnackBar(
+            'Please select at least 1 country!',
+            'Cancel'
+          );
+        if (value.countries.length > 5) {
+          this._sharedService.openSnackBar(
+            'You can select up to 5 countries!',
+            'Cancel'
+          );
+          const countries: string[] = value.countries;
+          if (countries.includes(this.optionCountrySelected)) {
+            const index: number = countries.indexOf(this.optionCountrySelected);
+            index > -1 && countries.splice(index, 1);
+            this.form
+              .get('countries')
+              .setValue(countries, { emitEvent: false });
+          }
+        } else {
+          this.onSubmitForm();
+        }
+      })
     );
   }
 
+  onSelectionCountriesChange(event: MatOptionSelectionChange): void {
+    event.isUserInput && (this.optionCountrySelected = event.source.value);
+  }
+
   onSubmitForm(): void {
-    if (this.form.valid) {
-      console.log(this.form.value);
-      const form: CountriesFormModel = {
-        date: moment(this.form.get('date').value).format(DATE_FORMAT),
-        countries: this.form.get('countries').value,
-      };
-      this.onFormSubmitEmitter.emit(form);
-    }
+    console.log(this.form.value);
+    const form: CountriesFormModel = {
+      date: moment(this.form.get('date').value).format(DATE_FORMAT),
+      countries: this.form.get('countries').value,
+    };
+    this.onFormSubmitEmitter.emit(form);
   }
 
   ngOnDestroy(): void {
