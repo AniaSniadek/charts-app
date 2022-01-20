@@ -6,6 +6,11 @@ import { map, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
 
+interface ActiveCovidData {
+  country: string;
+  active: number;
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,6 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   covidDetailsData: GraphData.Group[] = [];
   countriesList: string[];
   showGraph: boolean = false;
+  selectedDate: Date;
   private _subscription: Subscription = new Subscription();
 
   constructor(private readonly _covidDataService: CovidDataService) {}
@@ -30,6 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getCovidDataByDateAndCountry(date: string, countries: string[]): void {
+    this.selectedDate = new Date(date);
     this._subscription.add(
       this._covidDataService
         .getCovidDataFromCsv()
@@ -69,11 +76,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   prepareCovidData(data: CovidData[]): GraphData.Simple[] {
-    data.sort((a: CovidData, b: CovidData) => b.confirmed - a.confirmed);
-    return data.map((element: CovidData) => ({
+    const dataWithActive: ActiveCovidData[] = data.map((element: CovidData) => {
+      return {
+        country: element.country,
+        active: element.confirmed - element.recovered - element.deaths,
+      };
+    });
+    dataWithActive.sort(
+      (a: ActiveCovidData, b: ActiveCovidData) => b.active - a.active
+    );
+    return dataWithActive.map((element: ActiveCovidData) => ({
       name: element.country,
-      value: element.confirmed,
+      value: element.active,
     }));
+    // data.sort((a: CovidData, b: CovidData) => b.confirmed - a.confirmed);
+    // return data.map((element: CovidData) => ({
+    //   name: element.country,
+    //   value: element.confirmed,
+    // }));
   }
 
   prepareCovidDetailsData(data: CovidData[]): GraphData.Group[] {
