@@ -15,6 +15,7 @@ import { BarGraphComponent } from './graphs/bar-graph/bar-graph.component';
 import { PieGraphComponent } from './graphs/pie-graph/pie-graph.component';
 import { BarDetailsGraphComponent } from './graphs/bar-details-graph/bar-details-graph.component';
 import { NumberCardGraphComponent } from './graphs/number-card-graph/number-card-graph.component';
+import { DetailsRangeDialogComponent } from './details-range-dialog/details-range-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NumberCardGraphComponent } from './graphs/number-card-graph/number-card
     PieGraphComponent,
     BarDetailsGraphComponent,
     NumberCardGraphComponent,
+    DetailsRangeDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,8 @@
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/details-range-dialog.component';
+import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 
 const DEFAULT_COLORS: string[] = [
   '#2059D1',
@@ -10,6 +13,7 @@ const DEFAULT_COLORS: string[] = [
 ];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
+const DIALOG_WIDTH: string = '1000px';
 
 @Component({
   selector: 'app-bar-graph',
@@ -18,6 +22,7 @@ const DEFAULT_HEIGHT: number = 250;
 })
 export class BarGraphComponent {
   @Input() covidData: GraphData.Simple[];
+  @Input() selectedDate: Date;
 
   view: [number, number] = [DEFAULT_WIDTH, DEFAULT_HEIGHT];
   showXAxis: boolean = true;
@@ -32,12 +37,22 @@ export class BarGraphComponent {
   colorScheme: any = {
     domain: DEFAULT_COLORS,
   };
+  private readonly covidStatus: CovidStatus = CovidStatus.ACTIVE;
+
+  constructor(private readonly _dialog: MatDialog) {}
 
   xAxisFormatting(value: number): string {
     return value.toLocaleString();
   }
 
-  onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  onSelect(data: Partial<GraphData.ClickedValue>): void {
+    this._dialog.open(DetailsRangeDialogComponent, {
+      width: DIALOG_WIDTH,
+      data: {
+        countryName: data.name,
+        date: this.selectedDate,
+        status: this.covidStatus,
+      },
+    });
   }
 }

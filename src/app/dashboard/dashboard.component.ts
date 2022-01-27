@@ -5,6 +5,7 @@ import { CovidData } from 'src/app/_core/models/covid-data';
 import { map, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
+import { CovidStatus } from '../_core/enums/covid-status.enum';
 
 interface ActiveCovidData {
   country: string;
@@ -28,7 +29,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCountriesList();
-    // this.getCovidDataByDateAndCountry();
   }
 
   onSubmitFormListener(event: CountriesFormModel): void {
@@ -89,11 +89,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       name: element.country,
       value: element.active,
     }));
-    // data.sort((a: CovidData, b: CovidData) => b.confirmed - a.confirmed);
-    // return data.map((element: CovidData) => ({
-    //   name: element.country,
-    //   value: element.confirmed,
-    // }));
   }
 
   prepareCovidDetailsData(data: CovidData[]): GraphData.Group[] {
@@ -102,20 +97,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
       name: element.country,
       series: [
         {
-          name: 'Confirmed',
+          name: CovidStatus.CONFIRMED,
           value: element.confirmed,
         },
-        // {
-        //   name: 'Active',
-        //   value: element.Active,
-        // },
         {
-          name: 'Deaths',
-          value: element.deaths,
+          name: CovidStatus.RECOVERED,
+          value: element.recovered,
         },
         {
-          name: 'Recovered',
-          value: element.recovered,
+          name: CovidStatus.DEATHS,
+          value: element.deaths,
         },
       ],
     }));

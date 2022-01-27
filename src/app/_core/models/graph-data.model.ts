@@ -7,4 +7,11 @@ export namespace GraphData {
     name: string;
     series: Simple[];
   }
+
+  export interface ClickedValue {
+    name: string;
+    value: number;
+    label: string;
+    series: string;
+  }
 }
