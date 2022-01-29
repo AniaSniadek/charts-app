@@ -1,6 +1,6 @@
 export namespace GraphData {
   export interface Simple {
-    name: string;
+    name: string | Date;
     value: number;
   }
   export interface Group {

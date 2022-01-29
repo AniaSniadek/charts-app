@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { RangeFormData } from './../../_core/models/range-form-data.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
@@ -12,20 +13,22 @@ const DATE_FORMAT: string = 'YYYY-MM-DD';
   styleUrls: ['./date-range-header.component.scss'],
 })
 export class DateRangeHeaderComponent {
+  @Input() set formData(data: RangeFormData) {
+    data && this.initForm(data);
+  }
   @Output() onFormSubmitEmitter: EventEmitter<any> = new EventEmitter<any>();
+
   form: FormGroup;
 
   readonly defaultStartDate: Date = new Date(DEFAULT_START_DATE);
   readonly defaultEndDate: Date = new Date(DEFAULT_END_DATE);
 
-  constructor(private readonly _formBuilder: FormBuilder) {
-    this.initForm();
-  }
+  constructor(private readonly _formBuilder: FormBuilder) {}
 
-  initForm(): void {
+  initForm(data: RangeFormData): void {
     this.form = this._formBuilder.group({
-      startDate: [null, Validators.required],
-      endDate: [null, Validators.required],
+      startDate: [data.startDate, Validators.required],
+      endDate: [data.endDate, Validators.required],
     });
   }
   onSubmitForm(): void {

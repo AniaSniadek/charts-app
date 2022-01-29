@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+$color-bg-darker: #1b1e27;
 
 html,
 body {
@@ -10,4 +11,8 @@ body {
 }
 .mat-tab-body-wrapper {
   min-height: 100vh !important;
+}
+
+.mat-dialog-container {
+  background: $color-bg-darker;
 }

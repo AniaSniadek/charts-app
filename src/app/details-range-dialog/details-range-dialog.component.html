@@ -1,1 +1,5 @@
-<date-range-header></date-range-header>
+<date-range-header [formData]="formData"></date-range-header>
+<app-line-range-graph
+  *ngIf="showGraph"
+  [covidData]="covidData"
+></app-line-range-graph>
