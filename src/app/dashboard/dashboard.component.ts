@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
             )
           ),
           tap((response: CovidData[]) => {
-            console.log(response);
             if (response.length) {
               this.covidData = this.prepareCovidData(response);
               this.covidDetailsData = this.prepareCovidDetailsData(response);

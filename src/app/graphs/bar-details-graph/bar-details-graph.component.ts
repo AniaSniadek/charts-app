@@ -1,4 +1,3 @@
-import { CovidStatus } from './../../_core/enums/covid-status.enum';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
 import { LegendPosition } from '@swimlane/ngx-charts';

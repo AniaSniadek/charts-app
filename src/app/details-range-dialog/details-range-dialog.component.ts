@@ -36,39 +36,29 @@ export class DetailsRangeDialogComponent {
       country: data.countryName,
       status: data.status,
     };
-    console.log(this.formData);
-    this.getCovidDataByDateAndCountry(
-      this.formData.country,
-      this.formData.startDate,
-      this.formData.endDate,
-      this.formData.status
-    );
+    this.getCovidDataByDateAndCountry(this.formData);
   }
 
-  getCovidDataByDateAndCountry(
-    country: string,
-    startDate: Date,
-    endDate: Date,
-    status: CovidStatus
-  ): void {
+  getCovidDataByDateAndCountry(form: RangeFormData): void {
     this._subscription.add(
       this._covidDataService
         .getCovidDataFromCsv()
         .pipe(
           map((data: CovidData[]) =>
-            data.filter((element: CovidData) => element.country === country)
+            data.filter(
+              (element: CovidData) => element.country === form.country
+            )
           ),
           map((data: CovidData[]) =>
             data.filter(
               (element: CovidData) =>
-                new Date(element.date).getTime() <= endDate.getTime() &&
-                new Date(element.date).getTime() >= startDate.getTime()
+                new Date(element.date).getTime() <= form.endDate.getTime() &&
+                new Date(element.date).getTime() >= form.startDate.getTime()
             )
           ),
           tap((response: CovidData[]) => {
-            console.log(response);
             if (response.length) {
-              this.covidData = this.prepareCovidData(response, status);
+              this.covidData = this.prepareCovidData(response, form.status);
               this.showGraph = true;
             } else {
               this.covidData = [];
@@ -81,14 +71,26 @@ export class DetailsRangeDialogComponent {
   }
 
   prepareCovidData(data: CovidData[], status: CovidStatus): GraphData.Group[] {
-    return [
-      {
-        name: status,
-        series: data.map((element: CovidData) => ({
-          value: element[status.toLowerCase()],
-          name: new Date(element.date),
-        })),
-      },
-    ];
+    if (status === CovidStatus.ACTIVE) {
+      return [
+        {
+          name: status,
+          series: data.map((element: CovidData) => ({
+            value: element.confirmed - element.recovered - element.deaths,
+            name: new Date(element.date),
+          })),
+        },
+      ];
+    } else {
+      return [
+        {
+          name: status,
+          series: data.map((element: CovidData) => ({
+            value: element[status.toLowerCase()],
+            name: new Date(element.date),
+          })),
+        },
+      ];
+    }
   }
 }

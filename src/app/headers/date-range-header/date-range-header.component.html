@@ -12,8 +12,15 @@
             formControlName="startDate"
             matStartDate
             placeholder="Start date"
+            #dateRangeStart
           />
-          <input formControlName="endDate" matEndDate placeholder="End date" />
+          <input
+            formControlName="endDate"
+            matEndDate
+            placeholder="End date"
+            #dateRangeEnd
+            (dateChange)="dateRangeChange(dateRangeStart, dateRangeEnd)"
+          />
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
