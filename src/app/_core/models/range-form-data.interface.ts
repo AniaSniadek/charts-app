@@ -3,5 +3,5 @@ export interface RangeFormData {
   startDate: Date;
   endDate: Date;
   country: string;
-  status: CovidStatus;
+  statusList: CovidStatus[];
 }

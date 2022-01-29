@@ -22,6 +22,7 @@ export class DetailsRangeDialogComponent {
   formData: RangeFormData;
   showGraph: boolean = false;
   covidData: GraphData.Group[];
+  countriesList: string[];
 
   constructor(
     public dialogRef: MatDialogRef<DetailsRangeDialogComponent>,
@@ -34,63 +35,73 @@ export class DetailsRangeDialogComponent {
       ),
       endDate: data.date,
       country: data.countryName,
-      status: data.status,
+      statusList: [data.status],
     };
-    this.getCovidDataByDateAndCountry(this.formData);
+
+    this.getCountriesList();
   }
 
   getCovidDataByDateAndCountry(form: RangeFormData): void {
-    this._subscription.add(
-      this._covidDataService
-        .getCovidDataFromCsv()
-        .pipe(
-          map((data: CovidData[]) =>
-            data.filter(
-              (element: CovidData) => element.country === form.country
-            )
-          ),
-          map((data: CovidData[]) =>
-            data.filter(
-              (element: CovidData) =>
-                new Date(element.date).getTime() <= form.endDate.getTime() &&
-                new Date(element.date).getTime() >= form.startDate.getTime()
-            )
-          ),
-          tap((response: CovidData[]) => {
-            if (response.length) {
-              this.covidData = this.prepareCovidData(response, form.status);
-              this.showGraph = true;
-            } else {
-              this.covidData = [];
-              this.showGraph = false;
-            }
-          })
-        )
-        .subscribe()
-    );
+    if (form) {
+      this._subscription.add(
+        this._covidDataService
+          .getCovidDataFromCsv()
+          .pipe(
+            map((data: CovidData[]) =>
+              data.filter(
+                (element: CovidData) => element.country === form.country
+              )
+            ),
+            map((data: CovidData[]) =>
+              data.filter(
+                (element: CovidData) =>
+                  new Date(element.date).getTime() <= form.endDate.getTime() &&
+                  new Date(element.date).getTime() >= form.startDate.getTime()
+              )
+            ),
+            tap((response: CovidData[]) => {
+              if (response.length) {
+                this.covidData = this.prepareCovidData(
+                  response,
+                  form.statusList
+                );
+                this.showGraph = true;
+              } else {
+                this.covidData = [];
+                this.showGraph = false;
+              }
+            })
+          )
+          .subscribe()
+      );
+    } else {
+      this.covidData = [];
+      this.showGraph = false;
+    }
   }
 
-  prepareCovidData(data: CovidData[], status: CovidStatus): GraphData.Group[] {
-    if (status === CovidStatus.ACTIVE) {
-      return [
-        {
-          name: status,
-          series: data.map((element: CovidData) => ({
-            value: element.confirmed - element.recovered - element.deaths,
-            name: new Date(element.date),
-          })),
-        },
-      ];
-    } else {
-      return [
-        {
-          name: status,
-          series: data.map((element: CovidData) => ({
-            value: element[status.toLowerCase()],
-            name: new Date(element.date),
-          })),
-        },
-      ];
-    }
+  prepareCovidData(
+    data: CovidData[],
+    statusList: CovidStatus[]
+  ): GraphData.Group[] {
+    return statusList.map((status: CovidStatus) => ({
+      name: status,
+      series: data.map((element: CovidData) => ({
+        value:
+          status === CovidStatus.ACTIVE
+            ? element.confirmed - element.recovered - element.deaths
+            : element[status.toLowerCase()],
+        name: new Date(element.date),
+      })),
+    }));
+  }
+
+  getCountriesList(): void {
+    this._subscription.add(
+      this._covidDataService
+        .getCountriesListFromCsv()
+        .pipe(tap((countries: string[]) => (this.countriesList = countries)))
+        .subscribe()
+    );
   }
 }

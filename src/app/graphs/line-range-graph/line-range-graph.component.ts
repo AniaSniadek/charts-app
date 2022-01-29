@@ -2,7 +2,13 @@ import { Component, Input } from '@angular/core';
 import { LegendPosition } from '@swimlane/ngx-charts';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 
-const DEFAULT_COLORS: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
+const DEFAULT_COLORS: string[] = [
+  '#2059D1',
+  '#329FD1',
+  '#AFFFFF',
+  '#D2D058',
+  '#D19D31',
+];
 const DEFAULT_WIDTH: number = 950;
 const DEFAULT_HEIGHT: number = 400;
 

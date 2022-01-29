@@ -8,6 +8,7 @@ const DEFAULT_COLORS: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 400;
 const DIALOG_WIDTH: string = '1000px';
+const DIALOG_MIN_HEIGHT: string = '500px';
 
 @Component({
   selector: 'app-bar-details-graph',
@@ -41,6 +42,7 @@ export class BarDetailsGraphComponent {
   onSelect(data: GraphData.ClickedValue): void {
     this._dialog.open(DetailsRangeDialogComponent, {
       width: DIALOG_WIDTH,
+      minHeight: DIALOG_MIN_HEIGHT,
       data: {
         countryName: data.series,
         date: this.selectedDate,

@@ -1,6 +1,6 @@
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { Component, Input } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/details-range-dialog.component';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 
@@ -14,6 +14,7 @@ const DEFAULT_COLORS: string[] = [
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
 const DIALOG_WIDTH: string = '1000px';
+const DIALOG_MIN_HEIGHT: string = '500px';
 
 @Component({
   selector: 'app-bar-graph',
@@ -48,6 +49,7 @@ export class BarGraphComponent {
   onSelect(data: Partial<GraphData.ClickedValue>): void {
     this._dialog.open(DetailsRangeDialogComponent, {
       width: DIALOG_WIDTH,
+      minHeight: DIALOG_MIN_HEIGHT,
       data: {
         countryName: data.name,
         date: this.selectedDate,
