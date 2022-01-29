@@ -1,0 +1,9 @@
+<date-range-header
+  [countriesList]="countriesList"
+  [formData]="formData"
+  (onFormSubmitEmitter)="getCovidDataByDateAndCountry($event)"
+></date-range-header>
+<app-line-range-graph
+  *ngIf="showGraph"
+  [covidData]="covidData"
+></app-line-range-graph>

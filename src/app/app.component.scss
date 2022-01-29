@@ -1,7 +1,12 @@
+@import "../app/_shared/styles/dark-mode.scss";
+
 .app {
-  margin: 30px;
+  padding: 30px;
+  color: white;
+  min-height: 100vh;
 
   h1 {
     text-align: center;
+    color: white;
   }
 }

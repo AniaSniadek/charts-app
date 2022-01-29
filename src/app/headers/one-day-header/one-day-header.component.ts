@@ -94,7 +94,6 @@ export class OneDayHeaderComponent implements OnDestroy {
   }
 
   onSubmitForm(): void {
-    console.log(this.form.value);
     const form: CountriesFormModel = {
       date: moment(this.form.get('date').value).format(DATE_FORMAT),
       countries: this.form.get('countries').value,

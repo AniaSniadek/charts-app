@@ -3,20 +3,23 @@
   [countriesListObj]="countriesList"
   (onFormSubmitEmitter)="onSubmitFormListener($event)"
 ></one-day-header>
-<div class="graphs-container">
+<div class="graphs-container" *ngIf="showGraph">
   <div class="graphs-container__graph">
     <div class="graphs-container__title">
       Active cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
     </div>
-    <app-bar-graph *ngIf="showGraph" [covidData]="covidData"></app-bar-graph>
+    <app-bar-graph
+      [covidData]="covidData"
+      [selectedDate]="selectedDate"
+    ></app-bar-graph>
   </div>
   <div class="graphs-container__graph">
     <div class="graphs-container__title">
       Cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
     </div>
     <app-bar-details-graph
-      *ngIf="showGraph"
       [covidDetailsData]="covidDetailsData"
+      [selectedDate]="selectedDate"
     ></app-bar-details-graph>
   </div>
 </div>

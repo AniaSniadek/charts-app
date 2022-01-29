@@ -1,34 +1,11 @@
-<!-- <div class="date-range-header">
-  <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
-    <div class="cointainer">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose a country</mat-label>
-        <mat-select formControlName="country">
-          <mat-option
-            *ngFor="let country of countriesList"
-            [value]="country.Slug"
-          >
-            {{ country.Country }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="cointainer">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose status</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let status of covidStatusArray" [value]="status">
-            {{ status | uppercase }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="cointainer">
-      <mat-form-field appearance="fill">
+<div class="date-range-header">
+  <form [formGroup]="form">
+    <div class="container">
+      <mat-form-field appearance="outline">
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input
-          [min]="covidPandemicStartDate"
-          [max]="todayDate"
+          [min]="defaultStartDate"
+          [max]="defaultEndDate"
           [rangePicker]="picker"
         >
           <input
@@ -42,6 +19,25 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <button type="submit" mat-raised-button color="primary">Show graph</button>
+    <div class="container">
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a country</mat-label>
+        <mat-select formControlName="country">
+          <mat-option *ngFor="let country of countriesList" [value]="country">
+            {{ country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="container">
+      <mat-form-field appearance="outline">
+        <mat-label>Choose a status</mat-label>
+        <mat-select formControlName="statusList" multiple>
+          <mat-option *ngFor="let status of statusList" [value]="status">
+            {{ status }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </form>
-</div> -->
+</div>
