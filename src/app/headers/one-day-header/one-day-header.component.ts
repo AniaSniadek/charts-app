@@ -73,11 +73,6 @@ export class OneDayHeaderComponent implements OnDestroy {
   onFormListener(): void {
     this._subscription.add(
       this.countriesMultiControl.valueChanges.subscribe((value: string[]) => {
-        value.length === 0 &&
-          this._sharedService.openSnackBar(
-            'Please select at least 1 country!',
-            'Cancel'
-          );
         if (value.length > 5) {
           this._sharedService.openSnackBar(
             'You can select up to 5 countries!',

@@ -47,14 +47,16 @@ export class BarGraphComponent {
   }
 
   onSelect(data: Partial<GraphData.ClickedValue>): void {
-    this._dialog.open(DetailsRangeDialogComponent, {
-      width: DIALOG_WIDTH,
-      minHeight: DIALOG_MIN_HEIGHT,
-      data: {
-        countryName: data.name,
-        date: this.selectedDate,
-        status: this.covidStatus,
-      },
-    });
+    if (typeof data !== 'string') {
+      this._dialog.open(DetailsRangeDialogComponent, {
+        width: DIALOG_WIDTH,
+        minHeight: DIALOG_MIN_HEIGHT,
+        data: {
+          countryName: data.name,
+          date: this.selectedDate,
+          status: this.covidStatus,
+        },
+      });
+    }
   }
 }

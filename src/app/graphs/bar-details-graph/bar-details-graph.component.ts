@@ -40,14 +40,16 @@ export class BarDetailsGraphComponent {
   }
 
   onSelect(data: GraphData.ClickedValue): void {
-    this._dialog.open(DetailsRangeDialogComponent, {
-      width: DIALOG_WIDTH,
-      minHeight: DIALOG_MIN_HEIGHT,
-      data: {
-        countryName: data.series,
-        date: this.selectedDate,
-        status: data.name,
-      },
-    });
+    if (typeof data !== 'string') {
+      this._dialog.open(DetailsRangeDialogComponent, {
+        width: DIALOG_WIDTH,
+        minHeight: DIALOG_MIN_HEIGHT,
+        data: {
+          countryName: data.series,
+          date: this.selectedDate,
+          status: data.name,
+        },
+      });
+    }
   }
 }
