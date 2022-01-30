@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { SharedService } from './../../_shared/shared.service';
 import { CovidStatus } from './../../_core/enums/covid-status.enum';
 import { RangeFormData } from './../../_core/models/range-form-data.interface';
@@ -9,7 +10,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 
 const DEFAULT_START_DATE: string = '2020-01-01';
 const DEFAULT_END_DATE: string = '2020-12-31';
@@ -20,7 +21,10 @@ const DEFAULT_END_DATE: string = '2020-12-31';
   styleUrls: ['./date-range-header.component.scss'],
 })
 export class DateRangeHeaderComponent implements OnDestroy {
-  @Input() countriesList: string[];
+  @Input() set countriesList(data: string[]) {
+    this.countries = data;
+    this.filteredCountries.next(data);
+  }
   @Input() set formData(data: RangeFormData) {
     this.initForm(data);
     this.data = data;
@@ -32,6 +36,8 @@ export class DateRangeHeaderComponent implements OnDestroy {
   form: FormGroup;
   data: RangeFormData;
   statusList: CovidStatus[] = Object.values(CovidStatus);
+  countries: string[];
+  filteredCountries: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
 
   readonly defaultStartDate: Date = new Date(DEFAULT_START_DATE);
   readonly defaultEndDate: Date = new Date(DEFAULT_END_DATE);
@@ -48,6 +54,7 @@ export class DateRangeHeaderComponent implements OnDestroy {
       endDate: [data?.endDate, Validators.required],
       statusList: [data?.statusList, Validators.required],
       country: [data?.country, Validators.required],
+      filteredCountry: [null],
     });
     this.onFormSubmitEmitter.next({
       startDate: this.form.get('startDate').value,
@@ -100,6 +107,23 @@ export class DateRangeHeaderComponent implements OnDestroy {
           });
         }
       })
+    );
+    this._subscription.add(
+      this.form
+        .get('filteredCountry')
+        .valueChanges.subscribe((value: string) => this.filterCountries(value))
+    );
+  }
+
+  private filterCountries(search: string) {
+    if (!search) {
+      this.filteredCountries.next(this.countries);
+      return;
+    }
+    this.filteredCountries.next(
+      this.countries.filter((element: string) =>
+        element.toLowerCase().includes(search.toLowerCase())
+      )
     );
   }
 

@@ -1,12 +1,12 @@
 <div class="one-day-header">
-  <form [formGroup]="form" (ngSubmit)="onSubmitForm()">
+  <form>
     <div class="cointainer">
       <mat-form-field appearance="outline">
         <mat-label>Choose a date</mat-label>
         <input
           matInput
           [matDatepicker]="picker"
-          formControlName="date"
+          [formControl]="dateControl"
           [min]="defaultStartDate"
           [max]="defaultEndDate"
         />
@@ -17,9 +17,16 @@
     <div class="cointainer">
       <mat-form-field appearance="outline">
         <mat-label>Choose a country</mat-label>
-        <mat-select formControlName="countries" multiple>
+        <mat-select [formControl]="countriesMultiControl" multiple #matSelect>
+          <mat-option>
+            <ngx-mat-select-search
+              placeholderLabel="Search..."
+              noEntriesFoundLabel="No matching country found"
+              [formControl]="filteredCountryControl"
+            ></ngx-mat-select-search>
+          </mat-option>
           <mat-option
-            *ngFor="let country of countriesList"
+            *ngFor="let country of filteredCountries | async"
             [value]="country"
             (onSelectionChange)="onSelectionCountriesChange($event)"
           >

@@ -12,9 +12,7 @@ import { DateRangeHeaderComponent } from './headers/date-range-header/date-range
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BarGraphComponent } from './graphs/bar-graph/bar-graph.component';
-import { PieGraphComponent } from './graphs/pie-graph/pie-graph.component';
 import { BarDetailsGraphComponent } from './graphs/bar-details-graph/bar-details-graph.component';
-import { NumberCardGraphComponent } from './graphs/number-card-graph/number-card-graph.component';
 import { DetailsRangeDialogComponent } from './details-range-dialog/details-range-dialog.component';
 import { LineRangeGraphComponent } from './graphs/line-range-graph/line-range-graph.component';
 
@@ -25,9 +23,7 @@ import { LineRangeGraphComponent } from './graphs/line-range-graph/line-range-gr
     OneDayHeaderComponent,
     DashboardComponent,
     BarGraphComponent,
-    PieGraphComponent,
     BarDetailsGraphComponent,
-    NumberCardGraphComponent,
     DetailsRangeDialogComponent,
     LineRangeGraphComponent,
   ],
