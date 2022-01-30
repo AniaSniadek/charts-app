@@ -7,9 +7,14 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import * as moment from 'moment';
-import { Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material/core';
 
 const DEFAULT_START_DATE: string = '2020-01-01';
@@ -31,61 +36,82 @@ const DATE_FORMAT: string = 'YYYY-MM-DD';
 })
 export class OneDayHeaderComponent implements OnDestroy {
   @Input() set countriesListObj(data: string[]) {
-    this.initForm();
-    if (data) {
-      this.countriesList = data;
-      this.onSubmitForm();
-    }
+    this.countriesList = data;
+    this.filteredCountries.next(data);
+    this.onSubmitForm();
   }
   @Output() onFormSubmitEmitter: EventEmitter<CountriesFormModel> =
     new EventEmitter<CountriesFormModel>();
 
   countriesList: string[];
   form: FormGroup;
-  selectedCountriesList: string[] = DEFAULT_COUNTRIES;
   optionCountrySelected: string;
+  filteredCountries: ReplaySubject<string[]> = new ReplaySubject<string[]>(1);
+
+  filteredCountryControl: FormControl = new FormControl();
+  countriesMultiControl: FormControl = new FormControl(
+    DEFAULT_COUNTRIES,
+    Validators.required
+  );
+  dateControl: FormControl = new FormControl(
+    new Date(DEFAULT_DATE),
+    Validators.required
+  );
+
   readonly defaultStartDate: Date = new Date(DEFAULT_START_DATE);
   readonly defaultEndDate: Date = new Date(DEFAULT_END_DATE);
+
   private _subscription: Subscription = new Subscription();
 
   constructor(
     private readonly _formBuilder: FormBuilder,
     private readonly _sharedService: SharedService
-  ) {}
-
-  initForm(): void {
-    this.form = this._formBuilder.group({
-      countries: [DEFAULT_COUNTRIES, Validators.required],
-      date: [new Date(DEFAULT_DATE), Validators.required],
-    });
+  ) {
     this.onFormListener();
   }
 
   onFormListener(): void {
     this._subscription.add(
-      this.form.valueChanges.subscribe((value: CountriesFormModel) => {
-        value.countries.length === 0 &&
+      this.countriesMultiControl.valueChanges.subscribe((value: string[]) => {
+        value.length === 0 &&
           this._sharedService.openSnackBar(
             'Please select at least 1 country!',
             'Cancel'
           );
-        if (value.countries.length > 5) {
+        if (value.length > 5) {
           this._sharedService.openSnackBar(
             'You can select up to 5 countries!',
             'Cancel'
           );
-          const countries: string[] = value.countries;
-          if (countries.includes(this.optionCountrySelected)) {
-            const index: number = countries.indexOf(this.optionCountrySelected);
-            index > -1 && countries.splice(index, 1);
-            this.form
-              .get('countries')
-              .setValue(countries, { emitEvent: false });
+          if (value.includes(this.optionCountrySelected)) {
+            const index: number = value.indexOf(this.optionCountrySelected);
+            index > -1 && value.splice(index, 1);
+            this.countriesMultiControl.setValue(value, { emitEvent: false });
           }
         } else {
           this.onSubmitForm();
         }
       })
+    );
+    this._subscription.add(
+      this.dateControl.valueChanges.subscribe(() => this.onSubmitForm())
+    );
+    this._subscription.add(
+      this.filteredCountryControl.valueChanges.subscribe((value: string) =>
+        this.filterCountries(value)
+      )
+    );
+  }
+
+  private filterCountries(search: string) {
+    if (!search) {
+      this.filteredCountries.next(this.countriesList);
+      return;
+    }
+    this.filteredCountries.next(
+      this.countriesList.filter((element: string) =>
+        element.toLowerCase().includes(search.toLowerCase())
+      )
     );
   }
 
@@ -95,8 +121,8 @@ export class OneDayHeaderComponent implements OnDestroy {
 
   onSubmitForm(): void {
     const form: CountriesFormModel = {
-      date: moment(this.form.get('date').value).format(DATE_FORMAT),
-      countries: this.form.get('countries').value,
+      date: moment(this.dateControl.value).format(DATE_FORMAT),
+      countries: this.countriesMultiControl.value,
     };
     this.onFormSubmitEmitter.emit(form);
   }

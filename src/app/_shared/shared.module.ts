@@ -9,6 +9,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 @NgModule({
   declarations: [],
   imports: [],
@@ -25,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatTabsModule,
     MatSnackBarModule,
     MatDialogModule,
+    NgxMatSelectSearchModule,
   ],
   providers: [
     MatDatepickerModule,

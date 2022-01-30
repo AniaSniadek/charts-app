@@ -23,7 +23,17 @@
       <mat-form-field appearance="outline">
         <mat-label>Choose a country</mat-label>
         <mat-select formControlName="country">
-          <mat-option *ngFor="let country of countriesList" [value]="country">
+          <mat-option>
+            <ngx-mat-select-search
+              placeholderLabel="Search..."
+              noEntriesFoundLabel="No matching country found"
+              formControlName="filteredCountry"
+            ></ngx-mat-select-search>
+          </mat-option>
+          <mat-option
+            *ngFor="let country of filteredCountries | async"
+            [value]="country"
+          >
             {{ country }}
           </mat-option>
         </mat-select>

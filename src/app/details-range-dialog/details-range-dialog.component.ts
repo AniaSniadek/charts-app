@@ -55,8 +55,10 @@ export class DetailsRangeDialogComponent {
             map((data: CovidData[]) =>
               data.filter(
                 (element: CovidData) =>
-                  new Date(element.date).getTime() <= form.endDate.getTime() &&
-                  new Date(element.date).getTime() >= form.startDate.getTime()
+                  moment(element.date).valueOf() <=
+                    moment(form.endDate).valueOf() &&
+                  moment(element.date).valueOf() >=
+                    moment(form.startDate).valueOf()
               )
             ),
             tap((response: CovidData[]) => {
