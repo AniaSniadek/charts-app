@@ -8,7 +8,7 @@ interface ColorBar {
   value: string;
 }
 
-const DEFAULT_WIDTH: number = 950;
+const DEFAULT_WIDTH: number = 1120;
 const DEFAULT_HEIGHT: number = 400;
 const COLORS: ColorBar[] = [
   {

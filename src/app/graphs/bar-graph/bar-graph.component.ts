@@ -13,8 +13,8 @@ const DEFAULT_COLORS: string[] = [
 ];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
-const DIALOG_WIDTH: string = '1000px';
-const DIALOG_MIN_HEIGHT: string = '500px';
+const DIALOG_WIDTH: string = '1200px';
+const DIALOG_MIN_HEIGHT: string = '600px';
 
 @Component({
   selector: 'app-bar-graph',
