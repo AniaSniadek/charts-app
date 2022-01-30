@@ -10,7 +10,8 @@ import * as moment from 'moment';
 import { GraphData } from '../_core/models/graph-data.model';
 
 const DEFAULT_DATE_FORMAT: string = 'YYYY-MM-DD';
-const DAYS_RANGE: number = 30;
+const MONTHS_RANGE: number = 1;
+const LAST_MONTH: string = '12';
 
 @Component({
   selector: 'app-details-range-dialog',
@@ -30,10 +31,17 @@ export class DetailsRangeDialogComponent {
     private readonly _covidDataService: CovidDataService
   ) {
     this.formData = {
-      startDate: new Date(
-        moment(data.date).subtract(DAYS_RANGE, 'd').format(DEFAULT_DATE_FORMAT)
-      ),
-      endDate: data.date,
+      startDate: data.date,
+      endDate:
+        moment(data.date).format('M') === LAST_MONTH
+          ? new Date(
+              moment(data.date).endOf('month').format(DEFAULT_DATE_FORMAT)
+            )
+          : new Date(
+              moment(data.date)
+                .add(MONTHS_RANGE, 'M')
+                .format(DEFAULT_DATE_FORMAT)
+            ),
       country: data.countryName,
       statusList: [data.status],
     };
