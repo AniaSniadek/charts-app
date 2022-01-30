@@ -1,16 +1,33 @@
+import { CovidStatus } from './../../_core/enums/covid-status.enum';
 import { Component, Input } from '@angular/core';
 import { LegendPosition } from '@swimlane/ngx-charts';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 
-const DEFAULT_COLORS: string[] = [
-  '#2059D1',
-  '#329FD1',
-  '#AFFFFF',
-  '#D2D058',
-  '#D19D31',
-];
+interface ColorBar {
+  name: CovidStatus;
+  value: string;
+}
+
 const DEFAULT_WIDTH: number = 950;
 const DEFAULT_HEIGHT: number = 400;
+const COLORS: ColorBar[] = [
+  {
+    name: CovidStatus.ACTIVE,
+    value: '#ffb400',
+  },
+  {
+    name: CovidStatus.CONFIRMED,
+    value: '#54bebe',
+  },
+  {
+    name: CovidStatus.RECOVERED,
+    value: '#9080ff',
+  },
+  {
+    name: CovidStatus.DEATHS,
+    value: '#c80064',
+  },
+];
 
 @Component({
   selector: 'app-line-range-graph',
@@ -32,9 +49,7 @@ export class LineRangeGraphComponent {
   showTimeline: boolean = false;
   autoScale: boolean = true;
   legendPosition: LegendPosition = LegendPosition.Right;
-  colorScheme: any = {
-    domain: DEFAULT_COLORS,
-  };
+  customColors: ColorBar[] = COLORS;
 
   yAxisFormatting(value: number): string {
     return value.toLocaleString();

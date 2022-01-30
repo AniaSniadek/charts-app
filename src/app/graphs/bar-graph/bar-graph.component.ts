@@ -5,11 +5,11 @@ import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/detail
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 
 const DEFAULT_COLORS: string[] = [
-  '#2059D1',
-  '#329FD1',
-  '#AFFFFF',
-  '#D2D058',
-  '#D19D31',
+  '#444e86',
+  '#955196',
+  '#dd5182',
+  '#ff6e54',
+  '#ffa600',
 ];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
@@ -28,7 +28,7 @@ export class BarGraphComponent {
   view: [number, number] = [DEFAULT_WIDTH, DEFAULT_HEIGHT];
   showXAxis: boolean = true;
   showYAxis: boolean = true;
-  gradient: boolean = true;
+  gradient: boolean = false;
   showLegend: boolean = true;
   showGridLines: boolean = false;
   showXAxisLabel: boolean = true;

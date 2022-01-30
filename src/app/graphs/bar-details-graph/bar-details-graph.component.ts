@@ -4,7 +4,7 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/details-range-dialog.component';
 
-const DEFAULT_COLORS: string[] = ['#5AA454', '#C7B42C', '#AAAAAA'];
+const DEFAULT_COLORS: string[] = ['#48b5c4', '#76c68f', '#a6d75b'];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 400;
 const DIALOG_WIDTH: string = '1000px';
@@ -22,7 +22,7 @@ export class BarDetailsGraphComponent {
   view: [number, number] = [DEFAULT_WIDTH, DEFAULT_HEIGHT];
   showXAxis: boolean = true;
   showYAxis: boolean = true;
-  gradient: boolean = true;
+  gradient: boolean = false;
   showLegend: boolean = true;
   showXAxisLabel: boolean = true;
   yAxisLabel: string = 'Cases';
