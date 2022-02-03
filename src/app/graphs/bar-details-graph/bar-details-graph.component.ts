@@ -7,7 +7,7 @@ import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/detail
 const DEFAULT_COLORS: string[] = ['#48b5c4', '#76c68f', '#a6d75b'];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 400;
-const DIALOG_WIDTH: string = '1000px';
+const DIALOG_WIDTH: string = '1200px';
 const DIALOG_MIN_HEIGHT: string = '500px';
 
 @Component({
