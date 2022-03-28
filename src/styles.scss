@@ -16,3 +16,22 @@ body {
 .mat-dialog-container {
   background: $color-bg-darker;
 }
+
+.advanced-pie-legend .legend-items-container {
+  overflow: initial !important;
+}
+
+.advanced-pie-legend {
+  .total-value {
+    margin: 15px 0;
+  }
+  .legend-items-container {
+    .legend-items {
+      overflow: initial !important;
+
+      .item-value {
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
