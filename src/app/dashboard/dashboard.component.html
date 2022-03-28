@@ -1,22 +1,27 @@
-<h2>Data after selecting a date in specific countries</h2>
-<one-day-header
-  [countriesListObj]="countriesList"
-  (onFormSubmitEmitter)="onSubmitFormListener($event)"
-></one-day-header>
+<div class="header">
+  <one-day-header
+    [countriesListObj]="countriesList"
+    (onFormSubmitEmitter)="onSubmitFormListener($event)"
+  ></one-day-header>
+</div>
 <div class="graphs-container" *ngIf="showGraph">
   <div class="graphs-container__graph">
-    <div class="graphs-container__title">
+    <h2 class="graphs-container__title">
       Active cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
-    </div>
+    </h2>
     <app-bar-graph
       [covidData]="covidData"
       [selectedDate]="selectedDate"
     ></app-bar-graph>
   </div>
   <div class="graphs-container__graph">
-    <div class="graphs-container__title">
+    <app-pie-chart [covidData]="covidData" [selectedDate]="selectedDate">
+    </app-pie-chart>
+  </div>
+  <div class="graphs-container__graph">
+    <h2 class="graphs-container__title">
       Cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
-    </div>
+    </h2>
     <app-bar-details-graph
       [covidDetailsData]="covidDetailsData"
       [selectedDate]="selectedDate"
