@@ -1,3 +1,7 @@
+<h2>
+  Cases of Covid-19 on {{ form.get("startDate").value | date: "MMMM d" }} to
+  {{ form.get("endDate").value | date: "MMMM d, y" }}
+</h2>
 <div class="date-range-header">
   <form [formGroup]="form">
     <div class="container">
