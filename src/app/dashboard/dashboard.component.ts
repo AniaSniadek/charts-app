@@ -6,6 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
 import { CovidStatus } from '../_core/enums/covid-status.enum';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 interface ActiveCovidData {
   country: string;
@@ -20,15 +21,33 @@ interface ActiveCovidData {
 export class DashboardComponent implements OnInit, OnDestroy {
   covidData: GraphData.Simple[] = [];
   covidDetailsData: GraphData.Group[] = [];
+  covidBubbleData: GraphData.Group[] = [];
   countriesList: string[];
-  showGraph: boolean = false;
+  showActiveGraph: boolean = false;
+  showAllGraph: boolean = false;
   selectedDate: Date;
+  responseData: CovidData[];
+  selectedTabIndex: number = 0;
   private _subscription: Subscription = new Subscription();
 
   constructor(private readonly _covidDataService: CovidDataService) {}
 
   ngOnInit(): void {
     this.getCountriesList();
+  }
+
+  onTabChanged(event: MatTabChangeEvent): void {
+    this.showActiveGraph = false;
+    this.showAllGraph = false;
+    this.selectedTabIndex = event.index;
+    if (this.selectedTabIndex === 0) {
+      this.covidData = this.prepareCovidData(this.responseData);
+      this.showActiveGraph = true;
+    } else {
+      this.covidDetailsData = this.prepareCovidDetailsData(this.responseData);
+      this.covidBubbleData = this.prepareCovidBubbleData(this.responseData);
+      this.showAllGraph = true;
+    }
   }
 
   onSubmitFormListener(event: CountriesFormModel): void {
@@ -51,13 +70,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ),
           tap((response: CovidData[]) => {
             if (response.length) {
+              this.responseData = response;
               this.covidData = this.prepareCovidData(response);
               this.covidDetailsData = this.prepareCovidDetailsData(response);
-              this.showGraph = true;
+              this.covidBubbleData = this.prepareCovidBubbleData(response);
+              this.showActiveGraph = this.selectedTabIndex === 0;
+              this.showAllGraph = this.selectedTabIndex === 1;
             } else {
               this.covidData = [];
               this.covidDetailsData = [];
-              this.showGraph = false;
+              this.covidBubbleData = [];
+              this.showActiveGraph = false;
+              this.showAllGraph = false;
             }
           })
         )
@@ -109,6 +133,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       ],
     }));
+  }
+
+  prepareCovidBubbleData(data: CovidData[]): GraphData.Group[] {
+    data.sort((a: CovidData, b: CovidData) => b.confirmed - a.confirmed);
+    const result: GraphData.Group[] = [
+      {
+        name: CovidStatus.CONFIRMED,
+        series: [],
+      },
+      {
+        name: CovidStatus.RECOVERED,
+        series: [],
+      },
+      {
+        name: CovidStatus.DEATHS,
+        series: [],
+      },
+    ];
+    data.forEach((element: CovidData) => {
+      result[0].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.confirmed,
+        r: element.confirmed,
+      });
+      result[1].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.recovered,
+        r: element.recovered,
+      });
+      result[2].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.deaths,
+        r: element.deaths,
+      });
+    });
+
+    return result;
   }
 
   ngOnDestroy(): void {

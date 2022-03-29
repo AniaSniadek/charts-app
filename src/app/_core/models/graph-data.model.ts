@@ -3,9 +3,15 @@ export namespace GraphData {
     name: string | Date;
     value: number;
   }
+  export interface BubbleSeries {
+    name: string;
+    x: string;
+    y: number;
+    r: number;
+  }
   export interface Group {
     name: string;
-    series: Simple[];
+    series: Simple[] | BubbleSeries[] | any;
   }
 
   export interface ClickedValue {

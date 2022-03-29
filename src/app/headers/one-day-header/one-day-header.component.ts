@@ -20,7 +20,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 const DEFAULT_START_DATE: string = '2020-01-01';
 const DEFAULT_END_DATE: string = '2020-12-31';
 const DEFAULT_COUNTRIES: string[] = [
-  'Russia',
+  'United Kingdom',
   'Germany',
   'Poland',
   'Italy',
