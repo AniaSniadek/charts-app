@@ -6,6 +6,7 @@ import { map, tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
 import { CovidStatus } from '../_core/enums/covid-status.enum';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 interface ActiveCovidData {
   country: string;
@@ -22,14 +23,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
   covidDetailsData: GraphData.Group[] = [];
   covidBubbleData: GraphData.Group[] = [];
   countriesList: string[];
-  showGraph: boolean = false;
+  showActiveGraph: boolean = false;
+  showAllGraph: boolean = false;
   selectedDate: Date;
+  responseData: CovidData[];
+  selectedTabIndex: number = 0;
   private _subscription: Subscription = new Subscription();
 
   constructor(private readonly _covidDataService: CovidDataService) {}
 
   ngOnInit(): void {
     this.getCountriesList();
+  }
+
+  onTabChanged(event: MatTabChangeEvent): void {
+    this.showActiveGraph = false;
+    this.showAllGraph = false;
+    this.selectedTabIndex = event.index;
+    if (this.selectedTabIndex === 0) {
+      this.covidData = this.prepareCovidData(this.responseData);
+      this.showActiveGraph = true;
+    } else {
+      this.covidDetailsData = this.prepareCovidDetailsData(this.responseData);
+      this.covidBubbleData = this.prepareCovidBubbleData(this.responseData);
+      this.showAllGraph = true;
+    }
   }
 
   onSubmitFormListener(event: CountriesFormModel): void {
@@ -52,15 +70,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ),
           tap((response: CovidData[]) => {
             if (response.length) {
+              this.responseData = response;
               this.covidData = this.prepareCovidData(response);
               this.covidDetailsData = this.prepareCovidDetailsData(response);
               this.covidBubbleData = this.prepareCovidBubbleData(response);
-              this.showGraph = true;
+              this.showActiveGraph = this.selectedTabIndex === 0;
+              this.showAllGraph = this.selectedTabIndex === 1;
             } else {
               this.covidData = [];
               this.covidDetailsData = [];
               this.covidBubbleData = [];
-              this.showGraph = false;
+              this.showActiveGraph = false;
+              this.showAllGraph = false;
             }
           })
         )

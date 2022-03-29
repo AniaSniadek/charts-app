@@ -4,33 +4,41 @@
     (onFormSubmitEmitter)="onSubmitFormListener($event)"
   ></one-day-header>
 </div>
-<div class="graphs-container" *ngIf="showGraph">
-  <div class="graphs-container__graph">
-    <h2 class="graphs-container__title">
-      Active cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
-    </h2>
-    <app-bar-graph
-      [covidData]="covidData"
-      [selectedDate]="selectedDate"
-    ></app-bar-graph>
-  </div>
-  <div class="graphs-container__graph">
-    <app-pie-graph [covidData]="covidData" [selectedDate]="selectedDate">
-    </app-pie-graph>
-  </div>
-  <div class="graphs-container__graph">
+<mat-tab-group (selectedTabChange)="onTabChanged($event)">
+  <mat-tab label="Active">
+    <div class="graphs-container" *ngIf="showActiveGraph">
+      <h2 class="graphs-container__title">
+        Active cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
+      </h2>
+      <div class="graphs-container__graph">
+        <app-bar-graph
+          [covidData]="covidData"
+          [selectedDate]="selectedDate"
+        ></app-bar-graph>
+      </div>
+      <div class="graphs-container__graph">
+        <app-pie-graph [covidData]="covidData" [selectedDate]="selectedDate">
+        </app-pie-graph>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="All">
     <h2 class="graphs-container__title">
       Cases of Covid-19 on {{ selectedDate | date: "MMMM d, y" }}
     </h2>
-    <app-bar-details-graph
-      [covidDetailsData]="covidDetailsData"
-      [selectedDate]="selectedDate"
-    ></app-bar-details-graph>
-  </div>
-  <div class="graphs-container__graph">
-    <app-bubble-graph
-      [covidDetailsData]="covidBubbleData"
-      [selectedDate]="selectedDate"
-    ></app-bubble-graph>
-  </div>
-</div>
+    <div class="graphs-container" *ngIf="showAllGraph">
+      <div class="graphs-container__graph">
+        <app-bar-details-graph
+          [covidDetailsData]="covidDetailsData"
+          [selectedDate]="selectedDate"
+        ></app-bar-details-graph>
+      </div>
+      <div class="graphs-container__graph">
+        <app-bubble-graph
+          [covidDetailsData]="covidBubbleData"
+          [selectedDate]="selectedDate"
+        ></app-bubble-graph>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
