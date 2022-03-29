@@ -17,11 +17,11 @@ const DIALOG_WIDTH: string = '1200px';
 const DIALOG_MIN_HEIGHT: string = '600px';
 
 @Component({
-  selector: 'app-pie-chart',
-  templateUrl: './pie-chart.component.html',
-  styleUrls: ['./pie-chart.component.scss'],
+  selector: 'app-pie-graph',
+  templateUrl: './pie-graph.component.html',
+  styleUrls: ['./pie-graph.component.scss'],
 })
-export class PieChartComponent {
+export class PieGraphComponent {
   @Input() covidData: GraphData.Simple[];
   @Input() selectedDate: Date;
 

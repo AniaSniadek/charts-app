@@ -20,6 +20,7 @@ interface ActiveCovidData {
 export class DashboardComponent implements OnInit, OnDestroy {
   covidData: GraphData.Simple[] = [];
   covidDetailsData: GraphData.Group[] = [];
+  covidBubbleData: GraphData.Group[] = [];
   countriesList: string[];
   showGraph: boolean = false;
   selectedDate: Date;
@@ -53,10 +54,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             if (response.length) {
               this.covidData = this.prepareCovidData(response);
               this.covidDetailsData = this.prepareCovidDetailsData(response);
+              this.covidBubbleData = this.prepareCovidBubbleData(response);
               this.showGraph = true;
             } else {
               this.covidData = [];
               this.covidDetailsData = [];
+              this.covidBubbleData = [];
               this.showGraph = false;
             }
           })
@@ -109,6 +112,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       ],
     }));
+  }
+
+  prepareCovidBubbleData(data: CovidData[]): GraphData.Group[] {
+    data.sort((a: CovidData, b: CovidData) => b.confirmed - a.confirmed);
+    const result: GraphData.Group[] = [
+      {
+        name: CovidStatus.CONFIRMED,
+        series: [],
+      },
+      {
+        name: CovidStatus.RECOVERED,
+        series: [],
+      },
+      {
+        name: CovidStatus.DEATHS,
+        series: [],
+      },
+    ];
+    data.forEach((element: CovidData) => {
+      result[0].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.confirmed,
+        r: element.confirmed,
+      });
+      result[1].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.recovered,
+        r: element.recovered,
+      });
+      result[2].series.push({
+        name: element.country,
+        x: element.country,
+        y: element.deaths,
+        r: element.deaths,
+      });
+    });
+
+    return result;
   }
 
   ngOnDestroy(): void {

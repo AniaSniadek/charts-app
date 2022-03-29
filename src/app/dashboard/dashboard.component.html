@@ -15,8 +15,8 @@
     ></app-bar-graph>
   </div>
   <div class="graphs-container__graph">
-    <app-pie-chart [covidData]="covidData" [selectedDate]="selectedDate">
-    </app-pie-chart>
+    <app-pie-graph [covidData]="covidData" [selectedDate]="selectedDate">
+    </app-pie-graph>
   </div>
   <div class="graphs-container__graph">
     <h2 class="graphs-container__title">
@@ -26,5 +26,11 @@
       [covidDetailsData]="covidDetailsData"
       [selectedDate]="selectedDate"
     ></app-bar-details-graph>
+  </div>
+  <div class="graphs-container__graph">
+    <app-bubble-graph
+      [covidDetailsData]="covidBubbleData"
+      [selectedDate]="selectedDate"
+    ></app-bubble-graph>
   </div>
 </div>
