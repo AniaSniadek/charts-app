@@ -5,11 +5,11 @@ import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 
 const DEFAULT_COLORS: string[] = [
-  '#444e86',
-  '#955196',
-  '#dd5182',
-  '#ff6e54',
-  '#ffa600',
+  '#d43d51',
+  '#f49654',
+  '#fde987',
+  '#88bb72',
+  '#00876c',
 ];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
