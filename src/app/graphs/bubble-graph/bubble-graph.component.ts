@@ -58,9 +58,9 @@ export class BubbleGraphComponent implements OnInit {
         width: DIALOG_WIDTH,
         minHeight: DIALOG_MIN_HEIGHT,
         data: {
-          countryName: data.series,
+          countryName: data.name,
           date: this.selectedDate,
-          status: data.name,
+          status: data.series,
         },
       });
     }
