@@ -3,36 +3,8 @@ import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/details-range-dialog.component';
 import { CovidStatus } from 'src/app/_core/enums/covid-status.enum';
-// '#444e86',
-// '#955196',
-// '#dd5182',
-// '#ff6e54',
-// '#ffa600',
-// -----------
-// '#d43d51',
-// '#f49654',
-// '#fde987',
-// '#88bb72',
-// '#00876c',
-// ----------
-// '#e60049',
-//   '#0bb4ff',
-//   '#50e991',
-//   '#e6d800',
-//   '#9b19f5',
-// ---------
-// '#3FC0C7',
-// '#5144D3',
-// '#E8871B',
-// '#DA3490',
-// '#9089FA',
-const DEFAULT_COLORS: string[] = [
-  '#d43d51',
-  '#f49654',
-  '#fde987',
-  '#88bb72',
-  '#00876c',
-];
+
+const DEFAULT_COLORS: string[] = ['#48b5c4'];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 250;
 const DIALOG_WIDTH: string = '1200px';
@@ -51,7 +23,7 @@ export class BarGraphComponent {
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = false;
-  showLegend: boolean = true;
+  showLegend: boolean = false;
   showGridLines: boolean = false;
   showXAxisLabel: boolean = true;
   yAxisLabel: string = 'Country';

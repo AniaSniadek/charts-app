@@ -4,7 +4,7 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsRangeDialogComponent } from 'src/app/details-range-dialog/details-range-dialog.component';
 
-const DEFAULT_COLORS: string[] = ['#48b5c4', '#76c68f', '#a6d75b'];
+const DEFAULT_COLORS: string[] = ['#f49654', '#76c68f', '#d43d51'];
 const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 400;
 const DIALOG_WIDTH: string = '1200px';
