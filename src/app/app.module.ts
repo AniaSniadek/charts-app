@@ -17,6 +17,7 @@ import { DetailsRangeDialogComponent } from './details-range-dialog/details-rang
 import { LineRangeGraphComponent } from './graphs/line-range-graph/line-range-graph.component';
 import { PieGraphComponent } from './graphs/pie-graph/pie-graph.component';
 import { BubbleGraphComponent } from './graphs/bubble-graph/bubble-graph.component';
+import { HeatMapGraphComponent } from './graphs/heat-map-graph/heat-map-graph.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { BubbleGraphComponent } from './graphs/bubble-graph/bubble-graph.compone
     LineRangeGraphComponent,
     PieGraphComponent,
     BubbleGraphComponent,
+    HeatMapGraphComponent,
   ],
   imports: [
     BrowserModule,
