@@ -8,6 +8,17 @@ const DEFAULT_WIDTH: number = 1000;
 const DEFAULT_HEIGHT: number = 400;
 const DIALOG_WIDTH: string = '1200px';
 const DIALOG_MIN_HEIGHT: string = '500px';
+const DEFAULT_COLORS: string[] = [
+  '#edf5ff',
+  '#a6c8ff',
+  '#78a9ff',
+  '#4589ff',
+  '#0f62fe',
+  '#0043ce',
+  '#002d9c',
+  '#001d6c',
+  '#001141',
+];
 
 @Component({
   selector: 'app-heat-map-graph',
@@ -28,6 +39,9 @@ export class HeatMapGraphComponent {
   showYAxisLabel: boolean = true;
   xAxisLabel: string = 'Country';
   legendPosition: LegendPosition = LegendPosition.Right;
+  colorScheme: any = {
+    domain: DEFAULT_COLORS,
+  };
 
   constructor(private readonly _dialog: MatDialog) {}
 

@@ -14,8 +14,11 @@ const DIALOG_MIN_HEIGHT: string = '500px';
   templateUrl: './bubble-graph.component.html',
   styleUrls: ['./bubble-graph.component.scss'],
 })
-export class BubbleGraphComponent implements OnInit {
-  @Input() covidDetailsData: GraphData.Group[];
+export class BubbleGraphComponent {
+  @Input('covidDetailsData') set covidData(data: GraphData.Group[]) {
+    this.covidDetailsData = data;
+    this.setMinAndMaxValues();
+  }
   @Input() selectedDate: Date;
 
   view: [number, number] = [DEFAULT_WIDTH, DEFAULT_HEIGHT];
@@ -34,12 +37,9 @@ export class BubbleGraphComponent implements OnInit {
   colorScheme: any = {
     domain: DEFAULT_COLORS,
   };
+  covidDetailsData: GraphData.Group[];
 
   constructor(private readonly _dialog: MatDialog) {}
-
-  ngOnInit(): void {
-    this.setMinAndMaxValues();
-  }
 
   setMinAndMaxValues(): void {
     const maxValues: number[] = [];

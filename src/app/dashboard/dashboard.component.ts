@@ -1,8 +1,9 @@
+import { CountryPopulation } from './../_core/models/covid-data';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CovidDataService } from 'src/app/_core/services/covid-data.service';
 import { GraphData } from 'src/app/_core/models/graph-data.model';
 import { CovidData } from 'src/app/_core/models/covid-data';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { CountriesFormModel } from 'src/app/_core/models/countries-form-model.interface';
 import { CovidStatus } from '../_core/enums/covid-status.enum';
@@ -28,6 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selectedDate: Date;
   responseData: CovidData[];
   selectedTabIndex: number = 0;
+  countriesPopulation: CountryPopulation[];
   private _subscription: Subscription = new Subscription();
 
   constructor(private readonly _covidDataService: CovidDataService) {}
@@ -93,7 +95,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this._covidDataService
         .getCountriesListFromCsv()
-        .pipe(tap((countries: string[]) => (this.countriesList = countries)))
+        .pipe(
+          switchMap((countries: string[]) => {
+            this.countriesList = countries;
+            return this._covidDataService.getCountriesPopulationList();
+          }),
+          tap(
+            (value: CountryPopulation[]) => (this.countriesPopulation = value)
+          )
+        )
         .subscribe()
     );
   }
@@ -156,23 +166,34 @@ export class DashboardComponent implements OnInit, OnDestroy {
         name: element.country,
         x: element.country,
         y: element.confirmed,
-        r: element.confirmed,
+        r: this._getPopulationPercent(element.country, element.confirmed),
       });
       result[1].series.push({
         name: element.country,
         x: element.country,
         y: element.recovered,
-        r: element.recovered,
+        r: this._getPopulationPercent(element.country, element.recovered),
       });
       result[2].series.push({
         name: element.country,
         x: element.country,
         y: element.deaths,
-        r: element.deaths,
+        r: this._getPopulationPercent(element.country, element.deaths),
       });
     });
 
     return result;
+  }
+
+  private _getPopulationPercent(country: string, value: number): number {
+    const population: number = this._findPopulation(country);
+    return population ? +((value * 100) / population).toFixed(5) : 0;
+  }
+
+  private _findPopulation(country: string): number {
+    return this.countriesPopulation?.find(
+      (element: CountryPopulation) => element.country === country
+    )?.population;
   }
 
   ngOnDestroy(): void {
